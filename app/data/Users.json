@@ -1,0 +1,38 @@
+[
+    {
+        "shortname": "caseadmin",
+        "displayname": "caseadmin",
+        "email": "",
+        "distinguishedname": "cn=caseadmin" 
+    },
+    {
+        "shortname": "domainadmin",
+        "displayname": "domainadmin",
+        "email": "",
+        "distinguishedname": "cn=domainadmin" 
+    },
+    {
+        "shortname": "edmadmin",
+        "displayname": "edmadmin",
+        "email": "",
+        "distinguishedname": "cn=edmadmin" 
+    },
+    {
+        "shortname": "iccadmin",
+        "displayname": "iccadmin",
+        "email": "",
+        "distinguishedname": "cn=iccadmin" 
+    },
+    {
+        "shortname": "p8admin",
+        "displayname": "p8admin",
+        "email": "",
+        "distinguishedname": "cn=p8admin" 
+    },
+    {
+        "shortname": "sysadmin",
+        "displayname": "sysadmin",
+        "email": "",
+        "distinguishedname": "cn=sysadmin" 
+    }
+]
