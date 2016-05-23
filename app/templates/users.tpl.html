@@ -2,6 +2,7 @@
 <p>
 Create, edit or delete users. You can also view users that were imported from your LDAP server. However, you cannot modify those users from this administration client.
 </p>
+<div class="container-fluid" style="padding-right:0px;padding-left:0px">
 <div class="col-xs-6 mycol">
     <button type="button" class="btn btn-success" (click)="new()">New</button>
     <button type="button" class="btn btn-warning" (click)="edit()">Edit</button>
@@ -10,28 +11,51 @@ Create, edit or delete users. You can also view users that were imported from yo
 <div class="col-xs-6 mycol" style="margin-bottom:1%">
     <input type="text" class="form-control" [(ngModel)]="value" (ngModelChange)="queryChanged($event)" placeholder="Search for...">
 </div>
-    <table class="table table-bordered table-hover ">
-        <thead>
-            <tr>
-                <th valign="top" style="width: 10%" name="shortname">Short Name (User Name)</th>
-                <th style="width: 10%" name="displayname">Display Name</th>
-                <th style="width: 10%" name="email">Email</th>
-                <th style="width: 10%" name="distname">Distinguished Name</th>
+</div>
+<div class="image-display container-fluid" *ngIf="editActive">
+    <form (ngSubmit)="onSubmit()" class="col-xs-12" style="padding-left:0px;padding-right:0px;margin-bottom: 0px;" >
+      <div class="col-xs-6">
+      <fieldset class="form-group">
+        <label for="shortname">Short Name</label>
+        <input [(ngModel)]="editUser.shortname" type="text" class="form-control" required>
+      </fieldset>
+      <fieldset class="form-group">
+        <label for="displayname">Display Name</label>
+        <input [(ngModel)]="editUser.displayname" type="text" class="form-control">
+      </fieldset>
+      </div>
+      <div class="col-xs-6">
+      <fieldset class="form-group">
+        <label for="email">Email</label>
+        <input [(ngModel)]="editUser.email" type="text" class="form-control">
+      </fieldset>
+      <fieldset class="form-group">
+        <label for="distinguishedname">Distinguished Name</label>
+        <input [(ngModel)]="editUser.distinguishedname" type="text" class="form-control">
+      </fieldset>
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+<table class="table table-bordered table-hover ">
+    <thead>
+        <tr>
+            <th valign="top" style="width: 10%" name="shortname">Short Name (User Name)</th>
+            <th style="width: 10%" name="displayname">Display Name</th>
+            <th style="width: 10%" name="email">Email</th>
+            <th style="width: 10%" name="distname">Distinguished Name</th>
+        </tr>
+    </thead>
+    <tbody>
+            <template ngFor let-user [ngForOf]="users | userfilter : query">
+            <tr class={{user.class}} (click)="rowSelected(user)">
+                <td>{{user.shortname}}</td>
+                <td>{{user.displayname}}</td>
+                <td>{{user.email}}</td>
+                <td>{{user.distinguishedname}}</td>
             </tr>
-        </thead>
-        <tbody>
-                <template ngFor let-user [ngForOf]="users | userfilter : query">
-                <tr class={{user.class}} (click)="rowSelected(user)">
-                    <td>{{user.shortname}}</td>
-                    <td>{{user.displayname}}</td>
-                    <td>{{user.email}}</td>
-                    <td>{{user.distinguishedname}}</td>
-                </tr>
-                </template>
-        </tbody>
-    </table>     
-
-
-<h4>Debug Message</h4>
-<p>{{debugMessage}}</p>
+            </template>
+    </tbody>
+</table>
  

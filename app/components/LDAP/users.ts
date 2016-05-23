@@ -12,9 +12,23 @@ export class Users {
     private users = [];
     private query: String;
     
-    private activeUser;
+    private action: string = "";
     
-    private debugMessage: String;
+    private activeUser = {
+        shortname: "",
+        email: "",
+        displayname: "",
+        distinguishedname: ""        
+    };
+    
+    private editUser = {
+        shortname: "",
+        email: "",
+        displayname: "",
+        distinguishedname: ""        
+    };
+    
+    private editActive: boolean = false;
     
     constructor(http: Http){
         //Test with JSON file
@@ -22,34 +36,68 @@ export class Users {
         .subscribe(res => {
             this.users = res.json();
         })
+        //TODO get users list from LDAP server
+        /*
+        http.get('http://localhost:8080/myapp/users')
+        .subscribe(res => {
+            this.users = res.json();
+        },
+        error => alert(JSON.stringify(error)))*/
     }
         
     new(){
-        this.debugMessage = "New Function called!";
-        //TODO
+        if(this.editActive === false || this.action === 'new' || this.action === ''){
+            this.editActive = !this.editActive;
+        }
+        this.editUser = {
+            shortname: "",
+            email: "",
+            displayname: "",
+            distinguishedname: ""  
+        }
+        this.action = "new";
     }
     
     edit(){
-        if(this.activeUser){
-            this.debugMessage = "Edit " + JSON.stringify(this.activeUser);
-        } else {
-            this.debugMessage = "Edit: No User selected!";
+        if(this.editActive === false || this.action === 'edit' || this.action === ''){
+            this.editActive = !this.editActive;
         }
-        //TODO
+        this.copyUser();
+        this.action = "edit";
     }
     
     delete(){
-        if(this.activeUser){
-            var index = this.users.indexOf(this.activeUser);
-            if (index > -1) {
-                this.users = [
-                    ...this.users.slice(0, index),
-                    ...this.users.slice(index + 1, this.users.length)
-                ];
-            }
-            //TODO delete in LDAP
-        } else {
-            this.debugMessage = "Delete: No User selected!";
+        var index = this.users.indexOf(this.activeUser);
+        if (index > -1) {
+            this.users = [
+                ...this.users.slice(0, index),
+                ...this.users.slice(index + 1, this.users.length)
+            ];
+        }
+        //TODO LDAP delete user 
+    }
+    
+    onSubmit(){
+        this.editActive = false;
+        switch(this.action){
+            case 'edit':
+                this.reverseCopyUser();
+                //TODO LDAP update user
+                
+                break;
+            case 'new':
+                var newUser = {
+                    shortname: this.editUser.shortname,
+                    displayname: this.editUser.displayname,
+                    email: this.editUser.email,
+                    distinguishedname: this.editUser.distinguishedname
+                };
+                this.users.push(newUser);
+                this.users = this.users.slice();
+                //TODO LDAP create user
+                
+                break;
+            default:
         }
     }
     
@@ -65,5 +113,22 @@ export class Users {
         }
         value.class="active";
         this.activeUser = value;
+        if(this.action === 'edit'){
+            this.copyUser();    
+        }
+    }
+    
+    copyUser(){
+        this.editUser.shortname = this.activeUser.shortname;
+        this.editUser.displayname = this.activeUser.displayname;
+        this.editUser.email = this.activeUser.email;
+        this.editUser.distinguishedname = this.activeUser.distinguishedname;
+    }
+    
+    reverseCopyUser(){
+        this.activeUser.shortname = this.editUser.shortname;
+        this.activeUser.displayname = this.editUser.displayname;
+        this.activeUser.email = this.editUser.email;
+        this.activeUser.distinguishedname = this.editUser.distinguishedname;
     }
 }
