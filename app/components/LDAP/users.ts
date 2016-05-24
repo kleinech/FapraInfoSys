@@ -18,7 +18,8 @@ export class Users {
         shortname: "",
         email: "",
         displayname: "",
-        distinguishedname: ""        
+        distinguishedname: "",
+        class: ""      
     };
     
     private editUser = {
