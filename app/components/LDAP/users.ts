@@ -33,17 +33,18 @@ export class Users {
     
     constructor(http: Http){
         //Test with JSON file
-        http.request('app/data/Users.json')
+        /*http.request('app/data/Users.json')
         .subscribe(res => {
             this.users = res.json();
         })
         //TODO get users list from LDAP server
-        /*
+        /**/
         http.get('http://localhost:8080/myapp/users')
         .subscribe(res => {
+            alert(JSON.stringify(res));
             this.users = res.json();
         },
-        error => alert(JSON.stringify(error)))*/
+        error => alert(JSON.stringify(error)))
     }
         
     new(){

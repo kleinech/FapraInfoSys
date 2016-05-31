@@ -9,7 +9,7 @@ import { HTTP_PROVIDERS, Http } from '@angular/http';
 })
 export class Roles {
     private roles = [];
-    constructor(http: Http){
+    constructor(private http: Http){
     }
         
 }
