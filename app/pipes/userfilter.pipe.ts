@@ -5,6 +5,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class UserFilter implements PipeTransform {
     transform(users: Array<Object>, args: any = []){
-        return users.filter((user) => user["shortname"].indexOf(args) > -1);
+        return users.filter((user) => user["loginName"].indexOf(args) > -1);
     }
 }
