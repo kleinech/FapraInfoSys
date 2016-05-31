@@ -1,6 +1,8 @@
 import { Component } from '@angular/core'
 import { HTTP_PROVIDERS, Http } from '@angular/http';
 import { UserFilter } from '../../pipes/userfilter.pipe';
+import {RequestOptions, Request, RequestMethod} from '@angular/http';
+import {Headers} from '@angular/http';
 
 @Component({
     selector: 'users',
@@ -15,18 +17,18 @@ export class Users {
     private action: string = "";
     
     private activeUser = {
-        shortname: "",
+        loginName: "",
         email: "",
-        displayname: "",
-        distinguishedname: "",
+        displayName: "",
+        distinguishedName: "",
         class: ""      
     };
     
     private editUser = {
-        shortname: "",
+        loginName: "",
         email: "",
-        displayname: "",
-        distinguishedname: ""        
+        displayName: "",
+        distinguishedName: ""        
     };
     
     private editActive: boolean = false;
@@ -36,15 +38,15 @@ export class Users {
         /*http.request('app/data/Users.json')
         .subscribe(res => {
             this.users = res.json();
-        })
+        }),*/
         //TODO get users list from LDAP server
-        /**/
-        http.get('http://localhost:8080/myapp/users')
+        
+        http.get('http://localhost:8080/myapp/users', 
+        new RequestOptions({headers: new Headers({"Access-Control-Allow-Origin": "http://localhost:8080/"})}))
         .subscribe(res => {
-            alert(JSON.stringify(res));
             this.users = res.json();
         },
-        error => alert(JSON.stringify(error)))
+        error => alert(JSON.stringify(error))
     }
         
     new(){
@@ -52,10 +54,10 @@ export class Users {
             this.editActive = !this.editActive;
         }
         this.editUser = {
-            shortname: "",
+            loginName: "",
             email: "",
-            displayname: "",
-            distinguishedname: ""  
+            displayName: "",
+            distinguishedName: ""  
         }
         this.action = "new";
     }
@@ -89,10 +91,10 @@ export class Users {
                 break;
             case 'new':
                 var newUser = {
-                    shortname: this.editUser.shortname,
-                    displayname: this.editUser.displayname,
+                    loginName: this.editUser.loginName,
+                    displayName: this.editUser.displayName,
                     email: this.editUser.email,
-                    distinguishedname: this.editUser.distinguishedname
+                    distinguishedName: this.editUser.distinguishedName
                 };
                 this.users.push(newUser);
                 this.users = this.users.slice();
@@ -121,16 +123,16 @@ export class Users {
     }
     
     copyUser(){
-        this.editUser.shortname = this.activeUser.shortname;
-        this.editUser.displayname = this.activeUser.displayname;
+        this.editUser.loginName = this.activeUser.loginName;
+        this.editUser.displayName = this.activeUser.displayName;
         this.editUser.email = this.activeUser.email;
-        this.editUser.distinguishedname = this.activeUser.distinguishedname;
+        this.editUser.distinguishedName = this.activeUser.distinguishedName;
     }
     
     reverseCopyUser(){
-        this.activeUser.shortname = this.editUser.shortname;
-        this.activeUser.displayname = this.editUser.displayname;
+        this.activeUser.loginName = this.editUser.loginName;
+        this.activeUser.displayName = this.editUser.displayName;
         this.activeUser.email = this.editUser.email;
-        this.activeUser.distinguishedname = this.editUser.distinguishedname;
+        this.activeUser.distinguishedName = this.editUser.distinguishedName;
     }
 }

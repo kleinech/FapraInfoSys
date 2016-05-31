@@ -16,12 +16,12 @@ Create, edit or delete users. You can also view users that were imported from yo
     <form (ngSubmit)="onSubmit()" class="col-xs-12" style="padding-left:0px;padding-right:0px;margin-bottom: 0px;" >
       <div class="col-xs-6">
       <fieldset class="form-group">
-        <label for="shortname">Short Name</label>
-        <input [(ngModel)]="editUser.shortname" type="text" class="form-control" required>
+        <label for="loginName">Short Name</label>
+        <input [(ngModel)]="editUser.loginName" type="text" class="form-control" required>
       </fieldset>
       <fieldset class="form-group">
-        <label for="displayname">Display Name</label>
-        <input [(ngModel)]="editUser.displayname" type="text" class="form-control">
+        <label for="displayName">Display Name</label>
+        <input [(ngModel)]="editUser.displayName" type="text" class="form-control">
       </fieldset>
       </div>
       <div class="col-xs-6">
@@ -31,7 +31,7 @@ Create, edit or delete users. You can also view users that were imported from yo
       </fieldset>
       <fieldset class="form-group">
         <label for="distinguishedname">Distinguished Name</label>
-        <input [(ngModel)]="editUser.distinguishedname" type="text" class="form-control">
+        <input [(ngModel)]="editUser.distinguishedName" type="text" class="form-control">
       </fieldset>
       </div>
       <button type="submit" class="btn btn-primary">Submit</button>
@@ -50,10 +50,10 @@ Create, edit or delete users. You can also view users that were imported from yo
     <tbody>
             <template ngFor let-user [ngForOf]="users | userfilter : query">
             <tr class={{user.class}} (click)="rowSelected(user)">
-                <td>{{user.shortname}}</td>
-                <td>{{user.displayname}}</td>
+                <td>{{user.loginName}}</td>
+                <td>{{user.displayName}}</td>
                 <td>{{user.email}}</td>
-                <td>{{user.distinguishedname}}</td>
+                <td>{{user.distinguishedName}}</td>
             </tr>
             </template>
     </tbody>
