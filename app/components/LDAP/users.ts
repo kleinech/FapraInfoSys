@@ -32,6 +32,9 @@ export class Users {
     };
     
     private editActive: boolean = false;
+    private currentStartIdx = 0;
+    private currentLimit = 3;
+    private httpInfo : Http;
     
     constructor(http: Http){
         //Test with JSON file
@@ -41,14 +44,19 @@ export class Users {
         }),*/
         //TODO get users list from LDAP server
         
-        http.get('http://localhost:8080/myapp/users', 
-        new RequestOptions({headers: new Headers({"Access-Control-Allow-Origin": "http://localhost:8080/"})}))
+        this.httpInfo = http;
+        this.subscribeToUsers();
+    }
+    
+    subscribeToUsers()
+    {
+        this.httpInfo.get('http://localhost:8080/myapp/users/dyn?startIdx='+this.currentStartIdx+'&limit='+this.currentLimit)
         .subscribe(res => {
             this.users = res.json();
         },
-        error => alert(JSON.stringify(error))
+        error => alert(JSON.stringify(error)))
     }
-        
+    
     new(){
         if(this.editActive === false || this.action === 'new' || this.action === ''){
             this.editActive = !this.editActive;
@@ -81,6 +89,14 @@ export class Users {
         //TODO LDAP delete user 
     }
     
+    btnNextPage(){
+        this.currentStartIdx += this.currentLimit;
+        this.subscribeToUsers();
+    }
+    btnPreviousPage(){
+        this.currentStartIdx -= this.currentLimit;
+        this.subscribeToUsers();
+    }
     onSubmit(){
         this.editActive = false;
         switch(this.action){
@@ -108,6 +124,25 @@ export class Users {
     //Search function (query is used for userfilter.pipe)
     queryChanged(value){
         this.query=value;
+    }
+    
+    // updates the current limit for user results
+    limitChanged(value){
+        if(!this.isInt(value)) return;
+        this.currentLimit=value;
+        this.subscribeToUsers();
+    }
+    
+    // updates the current limit for user results
+    pageChanged(value){
+        if(!this.isInt(value)) return;
+        this.currentStartIdx=value;
+        this.subscribeToUsers();
+    }
+    
+    // Checks if the given param is a number
+    isInt(n){
+        return Number(n) === n && n % 1 === 0;
     }
     
     //Set active row
