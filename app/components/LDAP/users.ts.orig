@@ -12,7 +12,7 @@ import {Headers} from '@angular/http';
 })
 export class Users {
     private users = [];
-    private query: string;
+    private query: String;
     
     private action: string = "";
     
@@ -40,12 +40,23 @@ export class Users {
             this.users = res.json();
         }),*/
         //TODO get users list from LDAP server
+<<<<<<< HEAD
+        /**/
+        http.get('http://localhost:8080/myapp/users')
+=======
         
-        http.get('http://127.0.0.1:8080/myapp/users')
+        http.get('http://localhost:8080/myapp/users', 
+        new RequestOptions({headers: new Headers({"Access-Control-Allow-Origin": "http://localhost:8080/"})}))
+>>>>>>> 70d564ba5bcf2f17681d0e5a37249ec06b10d466
         .subscribe(res => {
+            alert(JSON.stringify(res));
             this.users = res.json();
         },
+<<<<<<< HEAD
         error => alert(JSON.stringify(error)))
+=======
+        error => alert(JSON.stringify(error))
+>>>>>>> 70d564ba5bcf2f17681d0e5a37249ec06b10d466
     }
         
     new(){
