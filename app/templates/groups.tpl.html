@@ -24,18 +24,14 @@ Create, modify and delete groups. Groups imported from your LDAP server can be v
                 <div class="col-xs-6">
                 <fieldset class="form-group">
                     <label for="loginName">Group Name</label>
-                    <input [(ngModel)]="editGroup.displayName" type="text" class="form-control" required>
-                </fieldset>
-                <fieldset class="form-group">
-                    <label for="displayName">Display Name</label>
-                    <input [(ngModel)]="editGroup.distinguishedName" type="text" class="form-control">
+                    <input [(ngModel)]="editGroup.groupName" type="text" class="form-control" required>
                 </fieldset>
                 </div>
                 <input type="submit" class="hidden">
                 <div class="col-xs-6">
                 <fieldset class="form-group">
-                    <label for="distinguishedname">Distinguished Name</label>
-                    <input [(ngModel)]="editGroup.members" type="text" class="form-control">
+                    <label for="displayName">Display Name</label>
+                    <input [(ngModel)]="editGroup.displayName" type="text" class="form-control">
                 </fieldset>
                 </div>
                 <button type="submit" class="hidden" ></button>

@@ -2,6 +2,7 @@
 <p>
 Create, edit or delete users. You can also view users that were imported from your LDAP server. However, you cannot modify those users from this administration client.
 </p>
+
 <div class="container-fluid" style="padding-right:0px;padding-left:0px">
 <div class="col-xs-6 mycol">
     <button type="button" class="btn btn-success" (click)="new()">New</button>
@@ -12,6 +13,7 @@ Create, edit or delete users. You can also view users that were imported from yo
     <input type="text" class="form-control" [(ngModel)]="value" (ngModelChange)="queryChanged($event)" placeholder="Search for...">
 </div>
 </div>
+
 <div class="image-display container-fluid" *ngIf="editActive">
     <form (ngSubmit)="onSubmit()" class="col-xs-12" style="padding-left:0px;padding-right:0px;margin-bottom: 0px;" >
       <div class="col-xs-6">
@@ -58,4 +60,24 @@ Create, edit or delete users. You can also view users that were imported from yo
             </template>
     </tbody>
 </table>
+ 
+ <div class="container-fluid" style="padding-right:0px;padding-left:0px;float:left">
+    <div><div><label for="currLimit">Results per Page</label></div> </div>
+    <div>
+        <div style="display: inline-block">
+            <div><input type="number" style="width:50px" class="form-control" [(ngModel)]="currentLimit" (ngModelChange)="limitChanged($event)" placeholder="Results per Page"></div>
+        </div>
+        <div style="display: inline-block">
+            <button type="button" class="btn btn-prevPage" (click)="btnPreviousPage()">&lt;&lt;</button>
+        </div>
+        <div style="display: inline-block">
+            <button type="button" class="btn btn-nextPage" (click)="btnNextPage()">&gt;&gt;</button>
+        </div>
+        <div style="display: inline-block">
+            <input type="number" style="width:50px" class="form-control" [(ngModel)]="currentStartIdx" (ngModelChange)="pageChanged($event)" placeholder="Current Start Index">
+        </div>    
+    </div>
+    
+</div>
+
  

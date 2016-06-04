@@ -2,6 +2,9 @@ import { Component } from '@angular/core'
 import { HTTP_PROVIDERS, Http } from '@angular/http';
 import { Group } from './group';
 
+import {RequestOptions, Request, RequestMethod} from '@angular/http';
+import { Headers } from '@angular/http';
+
 @Component({
     selector: 'groups',
     templateUrl: 'app/templates/groups.tpl.html',
@@ -20,12 +23,17 @@ export class Groups {
     private activeGroup: Group = new Group();
     private editGroup: Group = new Group();
     
+    private IP: string = "http://localhost:8080/myapp/";
+    private putHeader: Headers = new Headers({
+            'Content-Type': 'application/json',
+    });
+    
     constructor(private http: Http){
-       this.http.get('http://127.0.0.1:8080/myapp/groups')
+       this.http.get(this.IP + 'groups')
        .subscribe(res => {
            this.groups = res.json();
        },
-       error => alert(JSON.stringify(error)))        
+       error => alert(JSON.stringify(error)));
     }
     
     new(){
@@ -57,6 +65,13 @@ export class Groups {
                 ngroup.copy(this.editGroup);
                 this.groups.push(ngroup);
                 this.groups.slice();
+                
+                this.http.put(this.IP + "groups/" + ngroup.groupName, "JSON.stringify(ngroup)",
+                    new RequestOptions({headers: this.putHeader}))
+                .subscribe(
+                    complete => alert(JSON.stringify(complete)),
+                    error => alert(JSON.stringify(error)));
+                console.log(this.IP + "groups/" + ngroup.groupName);
                 break;
             case 'delete':
                 var index = this.groups.indexOf(this.activeGroup);
