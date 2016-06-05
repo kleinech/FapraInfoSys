@@ -81,7 +81,7 @@ Create, modify and delete groups. Groups imported from your LDAP server can be v
     <tbody>
         <template ngFor let-group [ngForOf]="groups">
         <tr class={{group.class}} (click)="rowSelected(group)">
-            <td>{{group.loginName}}</td>
+            <td>{{group.groupName}}</td>
             <td>{{group.displayName}}</td>
             <td>{{group.distinguishedName}}</td>
         </tr>

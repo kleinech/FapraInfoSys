@@ -1,9 +1,8 @@
 import { Component } from '@angular/core'
-import { HTTP_PROVIDERS, Http } from '@angular/http';
-import { Group } from './group';
-
+import { HTTP_PROVIDERS, Http, Headers } from '@angular/http';
 import {RequestOptions, Request, RequestMethod} from '@angular/http';
-import { Headers } from '@angular/http';
+
+import { Group } from './group';
 
 @Component({
     selector: 'groups',
@@ -31,7 +30,8 @@ export class Groups {
     constructor(private http: Http){
        this.http.get(this.IP + 'groups')
        .subscribe(res => {
-           this.groups = res.json();
+           // fill this.groups and call the Group constructor for each group!!
+           res.json().forEach(jobj => this.groups.push(new Group(jobj.distinguishedName, jobj.displayName)));
        },
        error => alert(JSON.stringify(error)));
     }
@@ -63,23 +63,31 @@ export class Groups {
             case 'new':
                 var ngroup : Group = new Group();
                 ngroup.copy(this.editGroup);
-                this.groups.push(ngroup);
-                this.groups.slice();
+                ngroup.setDistinguishedName();
                 
-                this.http.put(this.IP + "groups/" + ngroup.groupName, "JSON.stringify(ngroup)",
-                    new RequestOptions({headers: this.putHeader}))
+                this.http.put(this.IP + "groups/" + ngroup.groupName, ngroup.stringify(), {headers: this.putHeader})
                 .subscribe(
-                    complete => alert(JSON.stringify(complete)),
-                    error => alert(JSON.stringify(error)));
+                    complete => {
+                        this.groups.push(ngroup);
+                        this.groups.slice();
+                    },
+                    error => alert(JSON.stringify(error))
+                );
                 console.log(this.IP + "groups/" + ngroup.groupName);
                 break;
             case 'delete':
                 var index = this.groups.indexOf(this.activeGroup);
                 if (index > -1){
-                    this.groups = [
-                        ...this.groups.slice(0, index),
-                        ...this.groups.slice(index + 1, this.groups.length)
-                    ];
+                    this.http.delete(this.IP+"groups/"+this.activeGroup.groupName)
+                    .subscribe(
+                        complete => {
+                            this.groups = [
+                                ...this.groups.slice(0, index),
+                                ...this.groups.slice(index + 1, this.groups.length)
+                            ];
+                        },
+                        error => alert(JSON.stringify(error))
+                    );
                 }
                 break;
             default:
