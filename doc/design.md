@@ -19,4 +19,18 @@
   of the important reasons why customers choose one provider over
   another.
 
+# Architecture
+* Our specific aspect of the application is divided into three parts.
+* First, there is the frontend which must be a browser/web application
+  so that the user can access it easily.
+* the backend of the user/group management is an LDAP server. Groups
+  and Roles are both stored as groups.
+* In between there is a java library which communicates with the LDAP
+  server and provides a REST interface against which the frontend can
+  issue requests.
 
+# Frontend
+* We decided to implement the frontend using Angular2. It allows for a
+  modern design and modern user experience. It offers many predesigned
+  means to display and input data as well as easy communication with
+  the REST interface of the middle layer.
