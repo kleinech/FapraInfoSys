@@ -3,6 +3,7 @@ import { HTTP_PROVIDERS, Http, Headers } from '@angular/http';
 import {RequestOptions, Request, RequestMethod} from '@angular/http';
 
 import { Group } from './group';
+import { User } from './user';
 
 @Component({
     selector: 'groups',
@@ -18,13 +19,71 @@ export class Groups {
     private modalClass: string = "";
     private editHeader: string = "";
     private editActive: boolean = false;
+    private editGroupActive: boolean = false;
     
     private activeGroup: Group = new Group();
     private editGroup: Group = new Group();
     
+    private self = this;
+    
+    private groupMember = {
+        onSubmit : function(self){
+            let user = new User();
+            user.copy(this.activeRow);
+            self.editGroup.members.push(user);
+            this.toggle(self);
+        },
+        active: false,
+        options: {
+            groupOrUser: "",
+            search : ""
+        },
+        activeRow : new User(),
+        rowSelected: function(value){
+            if(this.activeRow){
+                this.activeRow.class = "";
+            }
+            value.class = "active";
+            this.activeRow = value;
+        },
+        elements : new Array<User>(),
+        onSearch : function(self){
+            this.elements = new Array<User>();
+            self.http.get(self.IP + this.options.groupOrUser)
+            .subscribe(res => {
+                res.json().forEach(jobj => this.elements.push(new User("","",jobj.displayName,jobj.distinguishedName)));
+            })
+        },
+        toggle: function(self){
+            self.editActive = !self.editActive;
+            this.active = !this.active;
+        },
+        
+    }
+    
+    private editGroupModal = {
+        activeRow : new User(),
+        rowSelected: function(value){
+            if(this.activeRow){
+                this.activeRow.class = "";
+            }
+            value.class = "active";
+            this.activeRow = value;
+        },
+        remove : function(self){
+            var index = self.editGroup.members.indexOf(this.activeRow);
+                if (index > -1){
+                    self.editGroup.members = [
+                        ...self.editGroup.members.slice(0, index),
+                        ...self.editGroup.members.slice(index + 1, self.activeGroup.members.length)
+                    ];
+                }
+        }
+    }
+    
     private IP: string = "http://localhost:8080/myapp/";
     private putHeader: Headers = new Headers({
-            'Content-Type': 'application/json',
+         'Content-Type': 'application/json',
     });
     
     constructor(private http: Http){
@@ -43,9 +102,20 @@ export class Groups {
     }
     
     edit(){
-        this.toggleEdit('edit');
+        
         this.editHeader = "Modify Group";
         this.editGroup.copy(this.activeGroup);
+        
+        // get members of the group
+        this.http.get(this.IP + "groups/" + this.editGroup.groupName + "/members")
+        .subscribe(res => {
+            this.editGroup.members = new Array<User>();
+            res.json().forEach(member => {
+                this.editGroup.members.push(new User("","",member.displayName,member.distinguishedName))
+            })
+        })
+        
+        this.toggleEdit('edit');
     }
     
     delete(){
