@@ -34,3 +34,9 @@
   modern design and modern user experience. It offers many predesigned
   means to display and input data as well as easy communication with
   the REST interface of the middle layer.
+
+# Middle Layer
+* The middle layer is a given Java library which (mostly for testing
+  purposes) runs as a standalone java application. It can however be
+  easily integrated as a Java EE container and run as managed
+  application on a Java Application Server.
