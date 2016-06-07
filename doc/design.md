@@ -40,3 +40,8 @@
   purposes) runs as a standalone java application. It can however be
   easily integrated as a Java EE container and run as managed
   application on a Java Application Server.
+
+# Design Decisions
+## Add User/Group dialog
+## Data update dialog
+## Paged and sorted list of search results
