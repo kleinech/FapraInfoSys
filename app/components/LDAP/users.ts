@@ -3,12 +3,14 @@ import { HTTP_PROVIDERS, Http } from '@angular/http';
 import { UserFilter } from '../../pipes/userfilter.pipe';
 import {RequestOptions, Request, RequestMethod} from '@angular/http';
 import {Headers} from '@angular/http';
+import { InfiniteScroll } from 'angular2-infinite-scroll';
 
 @Component({
     selector: 'users',
     templateUrl: 'app/templates/users.tpl.html',
     providers: [HTTP_PROVIDERS],
-    pipes: [UserFilter]
+    pipes: [UserFilter],
+    directives: [ InfiniteScroll ]
 })
 export class Users {
     private users = [];
@@ -48,6 +50,10 @@ export class Users {
         this.subscribeToUsers();
     }
     
+    ///////////////////////////////////////////////////////////////
+    // FUNCTIONS REGION
+    ///////////////////////////////////////////////////////////////
+    
     subscribeToUsers()
     {
         this.httpInfo.get('http://localhost:8080/myapp/users/dyn?startIdx='+this.currentStartIdx+'&limit='+this.currentLimit)
@@ -56,6 +62,51 @@ export class Users {
         },
         error => alert(JSON.stringify(error)))
     }
+    
+    getMoreUsers(cnt : Number)
+    {
+        this.httpInfo.get('http://localhost:8080/myapp/users/dyn?startIdx='
+            + this.users.length+'&limit='
+            + cnt)
+        .subscribe(res => {
+            this.users = this.users.concat(res.json());
+        },
+        error => alert(JSON.stringify(error)))
+        console.log("userlen: " + this.users.length + "limit: " + this.currentLimit)
+        //this.currentLimit += 3;
+    }
+    
+    
+    copyUser(){
+        this.editUser.loginName = this.activeUser.loginName;
+        this.editUser.displayName = this.activeUser.displayName;
+        this.editUser.email = this.activeUser.email;
+        this.editUser.distinguishedName = this.activeUser.distinguishedName;
+    }
+    
+    reverseCopyUser(){
+        this.activeUser.loginName = this.editUser.loginName;
+        this.activeUser.displayName = this.editUser.displayName;
+        this.activeUser.email = this.editUser.email;
+        this.activeUser.distinguishedName = this.editUser.distinguishedName;
+    }
+    
+    /** Pushes new user to LDAP */
+    pushUser(newUser){
+        this.users.push(newUser);
+        this.users = this.users.slice();
+        
+        // TODO: LDAP        
+        
+    }
+    
+    ///////////////////////////////////////////////////////////////
+    // END FUNCTIONS REGION
+    ///////////////////////////////////////////////////////////////
+    
+    ///////////////////////////////////////////////////////////////
+    // BUTTON REGION
+    ///////////////////////////////////////////////////////////////
     
     new(){
         if(this.editActive === false || this.action === 'new' || this.action === ''){
@@ -97,6 +148,27 @@ export class Users {
         this.currentStartIdx -= this.currentLimit;
         this.subscribeToUsers();
     }
+    btnLoadMore(){
+        this.getMoreUsers(this.currentLimit);
+    }
+    
+    btnTmpCreateMany(){
+        var i = 0;
+        for(i = 0; i<1000; i++)
+        {
+            var newUser = {
+                    loginName: "TestUser " + i,
+                    displayName: "TestUser " + i,
+                    email: "TestUser" + i + "@example.com",
+                    distinguishedName: "cn=TestUser" + i + ",ou=users,ou=customer,o=sccm"
+                };
+                this.pushUser(newUser);
+                
+        }
+    }
+    btnTmpRemoveMany(){
+        // TODO
+    }
 
     onSubmit(){
         this.editActive = false;
@@ -113,14 +185,26 @@ export class Users {
                     email: this.editUser.email,
                     distinguishedName: this.editUser.distinguishedName
                 };
-                this.users.push(newUser);
-                this.users = this.users.slice();
-                //TODO LDAP create user
+                this.pushUser(newUser);
                 
                 break;
             default:
         }
     }
+    
+    ///////////////////////////////////////////////////////////////
+    // BUTTONS REGION
+    ///////////////////////////////////////////////////////////////
+    
+    ///////////////////////////////////////////////////////////////
+    // EVENTS REGION
+    ///////////////////////////////////////////////////////////////
+    
+    
+    onScroll () {
+	    console.log('scrolled!!');
+        this.getMoreUsers(this.currentLimit);
+	}
     
     //Search function (query is used for userfilter.pipe)
     queryChanged(value){
@@ -158,17 +242,9 @@ export class Users {
         }
     }
     
-    copyUser(){
-        this.editUser.loginName = this.activeUser.loginName;
-        this.editUser.displayName = this.activeUser.displayName;
-        this.editUser.email = this.activeUser.email;
-        this.editUser.distinguishedName = this.activeUser.distinguishedName;
-    }
+    ///////////////////////////////////////////////////////////////
+    // END EVENT REGION
+    ///////////////////////////////////////////////////////////////
     
-    reverseCopyUser(){
-        this.activeUser.loginName = this.editUser.loginName;
-        this.activeUser.displayName = this.editUser.displayName;
-        this.activeUser.email = this.editUser.email;
-        this.activeUser.distinguishedName = this.editUser.distinguishedName;
-    }
+    
 }
