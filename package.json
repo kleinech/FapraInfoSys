@@ -29,6 +29,7 @@
     "zone.js": "^0.6.12"
   },
   "devDependencies": {
+    "angular2-infinite-scroll": "^0.1.1",
     "concurrently": "^2.0.0",
     "lite-server": "^2.2.0",
     "typescript": "^1.8.10",

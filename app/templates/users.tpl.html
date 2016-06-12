@@ -3,6 +3,7 @@
 Create, edit or delete users. You can also view users that were imported from your LDAP server. However, you cannot modify those users from this administration client.
 </p>
 
+        
 <div class="container-fluid" style="padding-right:0px;padding-left:0px">
 <div class="col-xs-6 mycol">
     <button type="button" class="btn btn-success" (click)="new()">New</button>
@@ -40,6 +41,20 @@ Create, edit or delete users. You can also view users that were imported from yo
     </form>
 </div>
 
+<div class="container-fluid" style="padding-right:0px;padding-left:0px;float:left">
+    <div><div><label for="currLimit">Temporary</label></div> </div>
+    <div>
+        <div style="display: inline-block">
+            <button type="button" class="btn btn-prevPage" (click)="btnTmpCreateMany()">Create Many Users</button>
+        </div>
+        <div style="display: inline-block">
+            <button type="button" class="btn btn-prevPage" (click)="btnTmpRemoveMany()">Remove Many Users</button>
+        </div>
+            
+    </div>
+    
+</div>
+
 <table class="table table-bordered table-hover ">
     <thead>
         <tr>
@@ -49,7 +64,12 @@ Create, edit or delete users. You can also view users that were imported from yo
             <th style="width: 10%" name="distname">Distinguished Name</th>
         </tr>
     </thead>
-    <tbody>
+    <tbody
+    infinite-scroll
+            [infiniteScrollDistance]="2"
+            [infiniteScrollThrottle]="300"
+            (scrolled)="onScroll()"
+            [scrollWindow]="true">
             <template ngFor let-user [ngForOf]="users | userfilter : query">
             <tr class={{user.class}} (click)="rowSelected(user)">
                 <td>{{user.loginName}}</td>
@@ -60,10 +80,28 @@ Create, edit or delete users. You can also view users that were imported from yo
             </template>
     </tbody>
 </table>
+
+		<div (OnScrollMethod)="nextPage()" ScrollDistance="3" InfiniteScroll="InfiniteScroll"></div>
+    
+ 
+ <!-- <div infinite-scroll="nextPage()"
+     infinite-scroll-disabled="busy"
+     infinite-scroll-distance="3">
+     
+     <div ng-repeat="items in items">
+        <h1 class='title'>{{item.loginName}}</h1>
+        <p item="item"></p>    
+     </div>
+     
+ </div>-->
+ 
  
  <div class="container-fluid" style="padding-right:0px;padding-left:0px;float:left">
     <div><div><label for="currLimit">Results per Page</label></div> </div>
     <div>
+        <div style="display: inline-block">
+            <button type="button" class="btn btn-prevPage" (click)="btnLoadMore()">Load More</button>
+        </div>
         <div style="display: inline-block">
             <div><input type="number" style="width:50px" class="form-control" [(ngModel)]="currentLimit" (ngModelChange)="limitChanged($event)" placeholder="Results per Page"></div>
         </div>
