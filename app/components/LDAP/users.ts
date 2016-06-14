@@ -4,6 +4,7 @@ import { UserFilter } from '../../pipes/userfilter.pipe';
 import {RequestOptions, Request, RequestMethod} from '@angular/http';
 import {Headers} from '@angular/http';
 import { InfiniteScroll } from 'angular2-infinite-scroll';
+import { User } from './user';
 
 @Component({
     selector: 'users',
@@ -38,6 +39,13 @@ export class Users {
     private currentLimit = 3;
     private httpInfo : Http;
     
+    
+    private IP: string = "http://localhost:8080/myapp/";
+    private putHeader: Headers = new Headers({
+         'Content-Type': 'application/json',
+    });
+    
+    
     constructor(http: Http){
         //Test with JSON file
         /*http.request('app/data/Users.json')
@@ -56,7 +64,7 @@ export class Users {
     
     subscribeToUsers()
     {
-        this.httpInfo.get('http://localhost:8080/myapp/users/dyn?startIdx='+this.currentStartIdx+'&limit='+this.currentLimit)
+        this.httpInfo.get('http://localhost:8080/myapp/users?offset='+this.currentStartIdx+'&limit='+this.currentLimit)
         .subscribe(res => {
             this.users = res.json();
         },
@@ -65,7 +73,7 @@ export class Users {
     
     getMoreUsers(cnt : Number)
     {
-        this.httpInfo.get('http://localhost:8080/myapp/users/dyn?startIdx='
+        this.httpInfo.get('http://localhost:8080/myapp/users?offset='
             + this.users.length+'&limit='
             + cnt)
         .subscribe(res => {
@@ -92,12 +100,50 @@ export class Users {
     }
     
     /** Pushes new user to LDAP */
-    pushUser(newUser){
+    pushUser(newUser : User){
         this.users.push(newUser);
         this.users = this.users.slice();
         
+        var res = this.httpInfo.put(this.IP+"users/" + newUser.loginName,
+            newUser.stringify()/*'{"id":"testmsg"}'*/, {headers: this.putHeader}) //newUser.stringify()
+            .subscribe(
+                    complete => {
+                        this.users.push(newUser);
+                        this.users.slice();
+                    },
+                    error => alert(JSON.stringify(error))
+                );
+                console.log(this.IP + "users/" + newUser.loginName);
         // TODO: LDAP        
-        
+        console.log(res);
+    }
+    
+    removeUser(user : User){
+        var res = this.httpInfo.delete(this.IP+"users/" + user.loginName, {headers: this.putHeader})
+            .subscribe(
+                    complete => {
+                        //this.users.push(newUser);
+                        //this.users.slice();
+                    },
+                    error => alert(JSON.stringify(error))
+                );
+                console.log("delete " + this.IP + "users/" + user.loginName);
+        // TODO: LDAP        
+        console.log(res);
+    }
+    
+    removeUserById(id : String){
+        var res = this.httpInfo.delete(this.IP+"users/" + id, {headers: this.putHeader})
+            .subscribe(
+                    complete => {
+                        //this.users.push(newUser);
+                        //this.users.slice();
+                    },
+                    error => alert(JSON.stringify(error))
+                );
+                console.log("delete " + this.IP + "users/" + id);
+        // TODO: LDAP        
+        console.log(res);
     }
     
     ///////////////////////////////////////////////////////////////
@@ -137,6 +183,7 @@ export class Users {
                 ...this.users.slice(index + 1, this.users.length)
             ];
         }
+        this.removeUserById(this.activeUser.loginName)
         //TODO LDAP delete user 
     }
     
@@ -156,18 +203,23 @@ export class Users {
         var i = 0;
         for(i = 0; i<1000; i++)
         {
-            var newUser = {
-                    loginName: "TestUser " + i,
-                    displayName: "TestUser " + i,
-                    email: "TestUser" + i + "@example.com",
-                    distinguishedName: "cn=TestUser" + i + ",ou=users,ou=customer,o=sccm"
-                };
-                this.pushUser(newUser);
+            var newUser = new User('User_'+i, "User"+i+"@example.com",'User_'+i,'User_'+i);
+            this.pushUser(newUser);
                 
         }
     }
     btnTmpRemoveMany(){
-        // TODO
+        var i = 0;
+        for(i = 0; i<1000; i++)
+        {
+            var newUser = new User('User_'+i, "User"+i+"@example.com",'User_'+i,'User_'+i);
+            this.removeUser(newUser);
+                
+        }
+    }
+    
+    btnClearUsers(){
+        this.users = [];
     }
 
     onSubmit(){
@@ -179,12 +231,10 @@ export class Users {
                 
                 break;
             case 'new':
-                var newUser = {
-                    loginName: this.editUser.loginName,
-                    displayName: this.editUser.displayName,
-                    email: this.editUser.email,
-                    distinguishedName: this.editUser.distinguishedName
-                };
+                var newUser : User = new User(this.editUser.loginName,
+                this.editUser.email,
+                this.editUser.displayName,
+                this.editUser.distinguishedName);
                 this.pushUser(newUser);
                 
                 break;

@@ -24,6 +24,23 @@ export class User {
     }
     
     stringify(){
-        return JSON.stringify(this);
+        //return JSON.stringify(this);
+        
+        /*return '{' //"id":"' + this.distinguishedName  
+            + '"name":"' + this.displayName
+            + '","password":"' + 'whatpw'
+            +'"}';*/
+        
+        /*return '{"distinguishedName":"' + '"' + this.distinguishedName + '"'  
+            + '","displayName":"' + '"' + this.displayName + '"'
+            + '","loginName":"' + '"' + this.loginName + '"'
+            +'}';*/
+        
+        return '{"distinguishedName":"' + this.distinguishedName  
+            + '","displayName":"' + this.displayName
+            + '","loginName":"' + this.loginName
+            + '","password":"' + 'somepw'
+            +'"}';
+        
     }
 }
