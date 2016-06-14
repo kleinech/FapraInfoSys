@@ -25,7 +25,7 @@
   application so that the user can access it easily.
 * The back-end of the user/group management is an LDAP server. Groups
   and Roles are both stored as groups.
-* In between there is a java library which communicates with the LDAP
+* In between there is a Java library which communicates with the LDAP
   server and provides a REST interface against which the front-end can
   issue requests.
 
@@ -37,12 +37,24 @@
 
 # Middle Layer
 * The middle layer is a given Java library which (mostly for testing
-  purposes) runs as a standalone java application. It can however be
+  purposes) runs as a standalone Java application. It can however be
   easily integrated as a Java EE container and run as managed
   application on a Java Application Server.
 
 # Design Decisions
 ## Add User/Group dialog
+**Requirement**: Adding single users is a basic requirement for the
+account management. The application must offer means to enter user data
+in a comfortable way, send them to the back-end and receive a reply
+about success or possibly any detected problems right away.
+
+**Implementation**: the user dialog is implemented as a modal dialog
+that pops up if the user presses the "add" button. That way no page load
+is necessary (faster response) and the form fields are still clearly
+separated from the rest of the page. The request data is sent via a REST
+call to the Java middle layer, which also provides an appropriate
+response about the success of the action.
+
 ## Data update dialog
 ## Paged and sorted list of search results
 **Requirement**: If many users are to be managed by the system,
@@ -55,7 +67,7 @@ entries. Because search results can still be long lists, the results
 must be displayed in chunks of variable size.
 
 **Implementation**: the user interface provides a search bar. The
-input to this bar is forwarded as a search request to the java library
+input to this bar is forwarded as a search request to the Java library
 which in turn forwards the request to the LDAP-Server. In order to
 provide paged search results, the front-end can also specify a starting
 position and a number. So the first page can be retrieved by sending a
@@ -63,10 +75,10 @@ search request with the search term, 0 (start position) and 10
 (request 10 entries. The second page can be requested by sending 10 as
 start position and so on.
 
-This design is simple yet effective, neither the java middle layer nor
+This design is simple yet effective, neither the Java middle layer nor
 the LDAP server need to keep any state. The current cursor position
 remains completely on the client (browser) which keeps the server
-complexity low. The design is more scalable because the java
+complexity low. The design is more scalable because the Java
 middleware could easily be hosted several times. It does not matter to
 which of the instances the requests are sent. The design can easily be
 extended to support prefetching of the next page's entries. This may
