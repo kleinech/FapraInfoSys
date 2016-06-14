@@ -83,3 +83,5 @@ middleware could easily be hosted several times. It does not matter to
 which of the instances the requests are sent. The design can easily be
 extended to support prefetching of the next page's entries. This may
 improve the user experience further by eliminating UI delays.
+
+## Bulk Import
