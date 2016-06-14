@@ -57,7 +57,12 @@ Create, edit or delete users. You can also view users that were imported from yo
     
 </div>
 
-<table class="table table-bordered table-hover ">
+<table class="table table-bordered table-hover "
+            infinite-scroll
+            [infiniteScrollDistance]="2"
+            [infiniteScrollThrottle]="300"
+            (scrolled)="onScroll()"
+            [scrollWindow]="true">
     <thead>
         <tr>
             <th valign="top" style="width: 10%" name="shortname">Short Name (User Name)</th>
@@ -66,12 +71,7 @@ Create, edit or delete users. You can also view users that were imported from yo
             <th style="width: 10%" name="distname">Distinguished Name</th>
         </tr>
     </thead>
-    <tbody
-    infinite-scroll
-            [infiniteScrollDistance]="2"
-            [infiniteScrollThrottle]="300"
-            (scrolled)="onScroll()"
-            [scrollWindow]="true">
+    <tbody>
             <template ngFor let-user [ngForOf]="users | userfilter : query">
             <tr class={{user.class}} (click)="rowSelected(user)">
                 <td>{{user.loginName}}</td>
@@ -85,19 +85,6 @@ Create, edit or delete users. You can also view users that were imported from yo
 
 		<div (OnScrollMethod)="nextPage()" ScrollDistance="3" InfiniteScroll="InfiniteScroll"></div>
     
- 
- <!-- <div infinite-scroll="nextPage()"
-     infinite-scroll-disabled="busy"
-     infinite-scroll-distance="3">
-     
-     <div ng-repeat="items in items">
-        <h1 class='title'>{{item.loginName}}</h1>
-        <p item="item"></p>    
-     </div>
-     
- </div>-->
- 
- 
  <div class="container-fluid" style="padding-right:0px;padding-left:0px;float:left">
     <div><div><label for="currLimit">Results per Page</label></div> </div>
     <div>

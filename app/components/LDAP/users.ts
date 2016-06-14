@@ -19,20 +19,16 @@ export class Users {
     
     private action: string = "";
     
-    private activeUser = {
+    /*private activeUser = {
         loginName: "",
         email: "",
         displayName: "",
         distinguishedName: "",
         class: ""      
-    };
+    };*/
     
-    private editUser = {
-        loginName: "",
-        email: "",
-        displayName: "",
-        distinguishedName: ""        
-    };
+    private activeUser : User = new User();
+    private editUser : User = new User();
     
     private editActive: boolean = false;
     private currentStartIdx = 0;
@@ -41,10 +37,6 @@ export class Users {
     
     
     private IP: string = "http://localhost:8080/myapp/";
-    private putHeader: Headers = new Headers({
-         'Content-Type': 'application/json',
-    });
-    
     
     constructor(http: Http){
         //Test with JSON file
@@ -62,9 +54,13 @@ export class Users {
     // FUNCTIONS REGION
     ///////////////////////////////////////////////////////////////
     
+    private putHeader: Headers = new Headers({
+         'Content-Type': 'application/json',
+    });
+    
     subscribeToUsers()
     {
-        this.httpInfo.get('http://localhost:8080/myapp/users?offset='+this.currentStartIdx+'&limit='+this.currentLimit)
+        this.httpInfo.get(this.IP+'users?offset='+this.currentStartIdx+'&limit='+this.currentLimit)
         .subscribe(res => {
             this.users = res.json();
         },
@@ -73,7 +69,7 @@ export class Users {
     
     getMoreUsers(cnt : Number)
     {
-        this.httpInfo.get('http://localhost:8080/myapp/users?offset='
+        this.httpInfo.get(this.IP+'users?offset='
             + this.users.length+'&limit='
             + cnt)
         .subscribe(res => {
@@ -105,7 +101,7 @@ export class Users {
         this.users = this.users.slice();
         
         var res = this.httpInfo.put(this.IP+"users/" + newUser.loginName,
-            newUser.stringify()/*'{"id":"testmsg"}'*/, {headers: this.putHeader}) //newUser.stringify()
+            newUser.stringify(), {headers: this.putHeader})
             .subscribe(
                     complete => {
                         this.users.push(newUser);
@@ -113,25 +109,15 @@ export class Users {
                     },
                     error => alert(JSON.stringify(error))
                 );
-                console.log(this.IP + "users/" + newUser.loginName);
-        // TODO: LDAP        
-        console.log(res);
+        console.log(this.IP + "users/" + newUser.loginName); 
     }
     
+    // Removes User
     removeUser(user : User){
-        var res = this.httpInfo.delete(this.IP+"users/" + user.loginName, {headers: this.putHeader})
-            .subscribe(
-                    complete => {
-                        //this.users.push(newUser);
-                        //this.users.slice();
-                    },
-                    error => alert(JSON.stringify(error))
-                );
-                console.log("delete " + this.IP + "users/" + user.loginName);
-        // TODO: LDAP        
-        console.log(res);
+        this.removeUserById(user.loginName);
     }
     
+    // Removes User by ID
     removeUserById(id : String){
         var res = this.httpInfo.delete(this.IP+"users/" + id, {headers: this.putHeader})
             .subscribe(
@@ -158,12 +144,7 @@ export class Users {
         if(this.editActive === false || this.action === 'new' || this.action === ''){
             this.editActive = !this.editActive;
         }
-        this.editUser = {
-            loginName: "",
-            email: "",
-            displayName: "",
-            distinguishedName: ""  
-        }
+        this.editUser = new User();
         this.action = "new";
     }
     
@@ -173,6 +154,7 @@ export class Users {
         }
         this.copyUser();
         this.action = "edit";
+        
     }
     
     delete(){
@@ -184,7 +166,6 @@ export class Users {
             ];
         }
         this.removeUserById(this.activeUser.loginName)
-        //TODO LDAP delete user 
     }
     
     btnNextPage(){
@@ -227,14 +208,17 @@ export class Users {
         switch(this.action){
             case 'edit':
                 this.reverseCopyUser();
+                
                 //TODO LDAP update user
+                this.pushUser(this.activeUser);
                 
                 break;
             case 'new':
-                var newUser : User = new User(this.editUser.loginName,
-                this.editUser.email,
-                this.editUser.displayName,
-                this.editUser.distinguishedName);
+                var newUser : User = new User(
+                    this.editUser.loginName,
+                    this.editUser.email,
+                    this.editUser.displayName,
+                    this.editUser.distinguishedName);
                 this.pushUser(newUser);
                 
                 break;
@@ -283,10 +267,11 @@ export class Users {
     //Set active row
     rowSelected(value){
         if(this.activeUser){
-            this.activeUser.class = "";
+            //this.activeUser.class = "";
         }
         value.class="active";
-        this.activeUser = value;
+        this.activeUser = new User(value.loginName, value.email, 
+                value.displayName, value.distinguishedName);
         if(this.action === 'edit'){
             this.copyUser();    
         }
