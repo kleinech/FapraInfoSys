@@ -9,6 +9,7 @@ Create, edit or delete users. You can also view users that were imported from yo
     <button type="button" class="btn btn-success" (click)="new()">New</button>
     <button type="button" class="btn btn-warning" (click)="edit()">Edit</button>
     <button type="button" class="btn btn-danger" (click)="delete()">Delete</button>
+    <button type="button" class="btn btn-success" (click)="btnImport()">Import</button>
 </div>
 <div class="col-xs-6 mycol" style="margin-bottom:1%">
     <input type="text" class="form-control" [(ngModel)]="value" (ngModelChange)="queryChanged($event)" placeholder="Search for...">
@@ -41,6 +42,38 @@ Create, edit or delete users. You can also view users that were imported from yo
     </form>
 </div>
 
+<div class="image-display container-fluid" *ngIf="importActive">
+    <form (ngSubmit)="onSubmit()" class="col-xs-12" style="padding-left:0px;padding-right:0px;margin-bottom: 0px;" >
+      <div class="col-xs-6">
+      <fieldset class="form-group">
+        <label for="fileImportName">File</label>
+        <input [(ngModel)]="editUser.loginName" type="text" class="form-control" required>
+      </fieldset>
+      <!--<fieldset class="form-group">
+      <<div class="column is-4">
+    <div class="message is-danger">
+      <div class="message-header">Basic Example</div>
+      <div class="message-body">
+        <div class="content">
+          <label class="tag btn is-danger">
+            <i class="fa fa-upload icon is-small"></i> Choose file
+            <input type="file" [ng-file-select]="options" (onUpload)="handleBasicUpload($event)">
+          </label>
+          <div class="progress">
+            <div class="progress-bar" [style.width]="basicProgress + '%'"></div>
+            <span class="percent">{{ basicProgress }}%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+      </fieldset>-->
+      </div>
+      <button type="submit" class="btn btn-primary">Upload</button>
+    </form>
+</div>
+
+
 <div class="container-fluid" style="padding-right:0px;padding-left:0px;float:left">
     <div><div><label for="currLimit">Temporary</label></div> </div>
     <div>
@@ -57,12 +90,18 @@ Create, edit or delete users. You can also view users that were imported from yo
     
 </div>
 
-<table class="table table-bordered table-hover "
-            infinite-scroll
+<div style="height: 70%;
+overflow: auto;
+width: 100%;
+border: 1px solid #000;
+padding: 10px;" infinite-scroll
             [infiniteScrollDistance]="2"
             [infiniteScrollThrottle]="300"
             (scrolled)="onScroll()"
-            [scrollWindow]="true">
+            [scrollWindow]="false"
+            >
+<table class="table table-bordered table-hover "
+            >
     <thead>
         <tr>
             <th valign="top" style="width: 10%" name="shortname">Short Name (User Name)</th>
@@ -83,7 +122,8 @@ Create, edit or delete users. You can also view users that were imported from yo
     </tbody>
 </table>
 
-		<div (OnScrollMethod)="nextPage()" ScrollDistance="3" InfiniteScroll="InfiniteScroll"></div>
+
+</div>
     
  <div class="container-fluid" style="padding-right:0px;padding-left:0px;float:left">
     <div><div><label for="currLimit">Results per Page</label></div> </div>

@@ -1,10 +1,11 @@
-import { Component } from '@angular/core'
+import { Component, NgZone } from '@angular/core'
 import { HTTP_PROVIDERS, Http } from '@angular/http';
 import { UserFilter } from '../../pipes/userfilter.pipe';
 import {RequestOptions, Request, RequestMethod} from '@angular/http';
 import {Headers} from '@angular/http';
 import { InfiniteScroll } from 'angular2-infinite-scroll';
 import { User } from './user';
+//import {UPLOAD_DIRECTIVES} from 'ng2-uploader/ng2-uploader';
 
 @Component({
     selector: 'users',
@@ -31,6 +32,7 @@ export class Users {
     private editUser : User = new User();
     
     private editActive: boolean = false;
+    private importActive: boolean = false;
     private currentStartIdx = 0;
     private currentLimit = 3;
     private httpInfo : Http;
@@ -140,6 +142,23 @@ export class Users {
     // BUTTON REGION
     ///////////////////////////////////////////////////////////////
     
+  /*  zone: NgZone;
+  options: Object = {
+    url: 'http://ng2-uploader.com:10050/upload'
+  };
+  basicProgress: number = 0;
+  basicResp: Object;
+  multipleProgress: number = 0;
+  multipleResp: any[] = [];
+  dropProgress: number = 0;
+  dropResp: any[] = [];
+    handleBasicUpload(data): void {
+    this.basicResp = data;
+    this.zone.run(() => {
+      this.basicProgress = data.progress.percent;
+    });
+  }*/
+    
     new(){
         if(this.editActive === false || this.action === 'new' || this.action === ''){
             this.editActive = !this.editActive;
@@ -166,6 +185,13 @@ export class Users {
             ];
         }
         this.removeUserById(this.activeUser.loginName)
+    }
+    
+    btnImport(){
+        if(this.editActive === false || this.action === 'edit' || this.action === ''){
+            this.importActive = this.editActive = !this.editActive;
+        }
+        
     }
     
     btnNextPage(){
@@ -204,7 +230,7 @@ export class Users {
     }
 
     onSubmit(){
-        this.editActive = false;
+        this.importActive = this.editActive = false;
         switch(this.action){
             case 'edit':
                 this.reverseCopyUser();
