@@ -1,14 +1,18 @@
-import * as ldap from './ldap-functions';
+import { ReflectiveInjector } from '@angular/core';
+import { LdapService } from './../../shared/index';
 
 export class User {
     public shortName: string = "";
+    private ldap: LdapService;
     constructor(
         public loginName: string = "",
         public email: string = "",
         public displayName: string = "",
         public distinguishedName: string = ""
     ){
-        this.shortName = ldap.cn(distinguishedName);
+        let injector = ReflectiveInjector.resolveAndCreate([LdapService]);
+        this.ldap = injector.get(LdapService);
+        this.shortName = this.ldap.cn(distinguishedName);
     }
     
     public copy(user: User){
@@ -20,7 +24,7 @@ export class User {
     }
     
     setDistinguishedName(){
-        this.distinguishedName = "cn=" + ldap.escape(this.shortName) + ",ou=users,ou=customer,o=sccm";
+        this.distinguishedName = "cn=" + this.ldap.escape(this.shortName) + ",ou=users,ou=customer,o=sccm";
     }
     
     stringify(){

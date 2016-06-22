@@ -1,17 +1,14 @@
 import { Component }    from '@angular/core';
-import { Tabs }         from './components/tabs';
-import { Tab }          from './components/tab';
-import { Menu }          from './components/menu';
-import { Item }          from './components/item';
-import { Users }          from './components/LDAP/users';
-import { Roles }          from './components/LDAP/roles';
-import { Groups }          from './components/LDAP/groups';
-import { FilterAndSettings }          from './components/LDAP/filterandsettings';
-import { EncryptionKey }          from './components/LDAP/encryptionkey';
+
+import { MENU_DIRECTIVES }  from './components/Menu/index';
+import { LDAP_DIRECTIVES, LDAP_PROVIDERS }  from './components/LDAP/shared/index';
+
 @Component({
-  selector: 'my-app',
-  templateUrl: 'app/templates/main.tpl.html',
-  directives: [Tabs, Tab, Menu, Item, Users, Roles, Groups, FilterAndSettings, EncryptionKey]
+    selector: 'my-app',
+    templateUrl: './templates/main.tpl.html',
+    directives: [MENU_DIRECTIVES, LDAP_DIRECTIVES],
+    providers: [LDAP_PROVIDERS],
+    moduleId: module.id
 })
 export class AppComponent { }
 

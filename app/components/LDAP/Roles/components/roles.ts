@@ -3,9 +3,10 @@ import { HTTP_PROVIDERS, Http } from '@angular/http';
 
 @Component({
     selector: 'roles',
-    templateUrl: 'app/templates/roles.tpl.html',
+    templateUrl: './../templates/roles.tpl.html',
     providers: [HTTP_PROVIDERS],
-    pipes: []
+    pipes: [],
+    moduleId: module.id
 })
 export class Roles {
     private roles = [];

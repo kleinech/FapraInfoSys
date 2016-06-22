@@ -1,17 +1,21 @@
-import * as ldap from './ldap-functions';
-import { User } from './user';
+import { ReflectiveInjector } from '@angular/core';
+import { User, LdapService } from './../../shared/index';
 
 export class Group {
     public class: string = "";
     public groupName: string = "";
     public description: string = "";
+    private ldap: LdapService;
     
     constructor(
         public distinguishedName: string = "",
         public displayName: string = "",
         public members: Array<User> = new Array<User>()
     ){
-        this.groupName = ldap.cn(distinguishedName);
+        let injector = ReflectiveInjector.resolveAndCreate([LdapService]);
+        this.ldap = injector.get(LdapService);
+
+        this.groupName = this.ldap.cn(distinguishedName);
     }
     
     public copy(group: Group){
@@ -24,7 +28,15 @@ export class Group {
     }
     
     setDistinguishedName(){
-        this.distinguishedName = "cn=" + ldap.escape(this.groupName) + ",ou=groups,ou=customer,o=sccm";
+        this.distinguishedName = "cn=" + this.ldap.escape(this.groupName) + ",ou=groups,ou=customer,o=sccm";
+    }
+    
+    getMemberStrings(): String[]{
+        let membString: Array<String> = new Array<String>();
+        this.members.forEach(element => {
+            membString.push(element.distinguishedName)
+        });
+        return membString;
     }
     
     filter(key, value){
@@ -33,7 +45,10 @@ export class Group {
             case "loginName": return undefined;
             case "email": return undefined;
             case "shortName": return undefined;
-            default: return value;
+            //default: return value;
+            case "distinguishedName": return value;
+            case "": return value;
+            default: return "";
         }
     }
     
@@ -46,7 +61,9 @@ export class Group {
             +'}';
         
         } else {
-            return '{"distinguishedName":"' + this.distinguishedName + '","displayName":"' + this.displayName + '","members":'+ JSON.stringify(this.members, this.filter) +'}';
+            //return '{"distinguishedName":"' + this.distinguishedName + '","displayName":"' + this.displayName + '","members":'+ JSON.stringify(this.members, this.filter) +'}';
+            return '{"distinguishedName":"' + this.distinguishedName + '","displayName":"' + this.displayName + '","members":'+ JSON.stringify(this.getMemberStrings()) +'}';
+        
         }
     }
     

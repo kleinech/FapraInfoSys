@@ -1,0 +1,5 @@
+.modal-component{
+    display:block;
+    background:hsla(0, 0%, 0%, 0.5);
+    overflow-y: scroll;
+}

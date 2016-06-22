@@ -1,18 +1,18 @@
 import { Component, NgZone } from '@angular/core'
-import { HTTP_PROVIDERS, Http } from '@angular/http';
-import { UserFilter } from '../../pipes/userfilter.pipe';
-import {RequestOptions, Request, RequestMethod} from '@angular/http';
-import {Headers} from '@angular/http';
+import { HTTP_PROVIDERS, Http, RequestOptions, Request, RequestMethod, Headers } from '@angular/http';
 import { InfiniteScroll } from 'angular2-infinite-scroll';
+
+import { UserFilter } from './../pipes/userfilter.pipe';
 import { User } from './user';
 //import {UPLOAD_DIRECTIVES} from 'ng2-uploader/ng2-uploader';
 
 @Component({
     selector: 'users',
-    templateUrl: 'app/templates/users.tpl.html',
+    templateUrl: './../templates/users.tpl.html',
     providers: [HTTP_PROVIDERS],
     pipes: [UserFilter],
-    directives: [ InfiniteScroll ]
+    directives: [ InfiniteScroll ],
+    moduleId: module.id
 })
 export class Users {
     private users = [];

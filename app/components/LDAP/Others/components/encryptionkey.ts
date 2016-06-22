@@ -2,12 +2,13 @@ import { Component } from '@angular/core'
 import { HTTP_PROVIDERS, Http } from '@angular/http';
 
 @Component({
-    selector: 'filterandsettings',
-    templateUrl: 'app/templates/filterandsettings.tpl.html',
+    selector: 'encryptionkey',
+    templateUrl: './../templates/encryptionkey.tpl.html',
     providers: [HTTP_PROVIDERS],
-    pipes: []
+    pipes: [],
+    moduleId: module.id
 })
-export class FilterAndSettings {
+export class EncryptionKey {
     constructor(http: Http){
     }
         

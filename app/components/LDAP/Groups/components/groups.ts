@@ -1,15 +1,19 @@
-import { Component } from '@angular/core'
+import { Component, ViewChild } from '@angular/core'
 import { HTTP_PROVIDERS, Http, Headers } from '@angular/http';
 import {RequestOptions, Request, RequestMethod} from '@angular/http';
 
 import { Group } from './group';
-import { User } from './user';
+import { User } from './../../shared/index';
+
+import { MODAL_DIRECTIVES, ModalDialog } from './../../../ModalWindow/index';
 
 @Component({
     selector: 'groups',
-    templateUrl: 'app/templates/groups.tpl.html',
+    templateUrl: './../templates/groups.tpl.html',
     providers: [HTTP_PROVIDERS],
-    pipes: []
+    directives: [MODAL_DIRECTIVES],
+    pipes: [],
+    moduleId: module.id
 })
 export class Groups {
     private groups: Array<Group> = [];
@@ -25,6 +29,8 @@ export class Groups {
     private editGroup: Group = new Group();
     
     private self = this;
+    
+     @ViewChild('nedgroup') private mw: ModalDialog;
     
     private groupMember = {
         onSubmit : function(self){
@@ -56,6 +62,9 @@ export class Groups {
         },
         toggle: function(self){
             self.editActive = !self.editActive;
+            if(!self.editActive){
+                self.mw.close();    
+            }
             this.active = !this.active;
         },
         
@@ -125,6 +134,7 @@ export class Groups {
     
     onSubmit(){
         this.editActive = false;
+        this.mw.close();
         
         switch(this.action){
             case 'edit':
@@ -166,12 +176,14 @@ export class Groups {
     
     toggleEdit(action:string){
         this.editActive = !this.editActive;
-               
-        this.action = action;
-        if(this.editActive){
-            this.modalClass = "in";  
+        
+        if(!this.editActive){
+            this.mw.close();    
+        } else {
+            this.mw.open();
         }
         
+        this.action = action;
     }
     
     rowSelected(value){
