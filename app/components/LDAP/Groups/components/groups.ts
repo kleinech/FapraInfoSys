@@ -1,199 +1,88 @@
 import { Component, ViewChild } from '@angular/core'
-import { HTTP_PROVIDERS, Http, Headers } from '@angular/http';
-import {RequestOptions, Request, RequestMethod} from '@angular/http';
 
 import { Group } from './group';
+import { GroupsService } from './groups.service';
+import { CRUDModalService } from './crud-modal.service';
+import { MembersModalService } from './members-modal.service';
 import { User } from './../../shared/index';
+import { LDAPHttpService } from './../../shared/services/ldap-http.service'
 
 import { MODAL_DIRECTIVES, ModalDialog } from './../../../ModalWindow/index';
+import { TABLE_DIRECTIVES, Header } from './../../../Table/index';
+import { MENUBAR_DIRECTIVES } from './../../../MenuBar/index';
+
 
 @Component({
     selector: 'groups',
     templateUrl: './../templates/groups.tpl.html',
-    providers: [HTTP_PROVIDERS],
-    directives: [MODAL_DIRECTIVES],
-    pipes: [],
+    directives: [MODAL_DIRECTIVES, TABLE_DIRECTIVES, MENUBAR_DIRECTIVES],
     moduleId: module.id
 })
 export class Groups {
-    private groups: Array<Group> = [];
-    private query: string;
+    public groups: Array<Group> = new Array<Group>();
     
-    private action: string = "";
-    private modalClass: string = "";
-    private editHeader: string = "";
-    private editActive: boolean = false;
-    private editGroupActive: boolean = false;
-    
-    private activeGroup: Group = new Group();
-    private editGroup: Group = new Group();
-    
-    private self = this;
-    
-     @ViewChild('nedgroup') private mw: ModalDialog;
-    
-    private groupMember = {
-        onSubmit : function(self){
-            let user = new User();
-            user.copy(this.activeRow);
-            self.editGroup.members.push(user);
-            this.toggle(self);
-        },
-        active: false,
-        options: {
-            groupOrUser: "",
-            search : ""
-        },
-        activeRow : new User(),
-        rowSelected: function(value){
-            if(this.activeRow){
-                this.activeRow.class = "";
-            }
-            value.class = "active";
-            this.activeRow = value;
-        },
-        elements : new Array<User>(),
-        onSearch : function(self){
-            this.elements = new Array<User>();
-            self.http.get(self.IP + this.options.groupOrUser)
-            .subscribe(res => {
-                res.json().forEach(jobj => this.elements.push(new User("","",jobj.displayName,jobj.distinguishedName)));
-            })
-        },
-        toggle: function(self){
-            self.editActive = !self.editActive;
-            if(!self.editActive){
-                self.mw.close();    
-            }
-            this.active = !this.active;
-        },
-        
+    @ViewChild('nedgroup') private crudModal: ModalDialog;
+    @ViewChild('memberModal') private memberModal: ModalDialog;
+
+
+    constructor(
+            private ldapHttpService: LDAPHttpService,
+            private groupsService: GroupsService,
+            private crudModalService: CRUDModalService,
+            private membersModalService: MembersModalService){
+        this.search();
     }
     
-    private editGroupModal = {
-        activeRow : new User(),
-        rowSelected: function(value){
-            if(this.activeRow){
-                this.activeRow.class = "";
-            }
-            value.class = "active";
-            this.activeRow = value;
-        },
-        remove : function(self){
-            var index = self.editGroup.members.indexOf(this.activeRow);
-                if (index > -1){
-                    self.editGroup.members = [
-                        ...self.editGroup.members.slice(0, index),
-                        ...self.editGroup.members.slice(index + 1, self.activeGroup.members.length)
-                    ];
-                }
-        }
-    }
-    
-    private IP: string = "http://localhost:8080/myapp/";
-    private putHeader: Headers = new Headers({
-         'Content-Type': 'application/json',
-    });
-    
-    constructor(private http: Http){
-       this.http.get(this.IP + 'groups')
-       .subscribe(res => {
-           // fill this.groups and call the Group constructor for each group!!
-           res.json().forEach(jobj => this.groups.push(new Group(jobj.distinguishedName, jobj.displayName)));
-       },
-       error => alert(JSON.stringify(error)));
+    search(){
+        this.ldapHttpService.getGroups(
+            this.groupsService.offset,
+            this.groupsService.limit,
+            this.groupsService.query
+        ).subscribe(g => this.groups = g);
     }
     
     new(){
-        this.toggleEdit('new');
-        this.editHeader = "New Group";
-        this.editGroup = new Group();
+        this.crudModalService.init("new");
+        this.crudModal.open();
     }
     
     edit(){
-        
-        this.editHeader = "Modify Group";
-        this.editGroup.copy(this.activeGroup);
-        
-        // get members of the group
-        this.http.get(this.IP + "groups/" + this.editGroup.groupName + "/members")
-        .subscribe(res => {
-            this.editGroup.members = new Array<User>();
-            res.json().forEach(member => {
-                this.editGroup.members.push(new User("","",member.displayName,member.distinguishedName))
-            })
-        })
-        
-        this.toggleEdit('edit');
+        this.crudModalService.init("edit");
+        this.crudModal.open();
+        // remove all current members
+        while (this.crudModalService.group.edit.members.length > 0) {
+            this.crudModalService.group.edit.members.pop();
+        }
+       
+        this.ldapHttpService.getGroupMembers(this.crudModalService.group.edit.groupName)
+        .subscribe(m => this.crudModalService.group.edit.members = m);
     }
     
     delete(){
-        this.action = 'delete';
-        this.onSubmit();        
+        this.crudModalService.init("delete");
+        this.submit();        
     }
     
-    onSubmit(){
-        this.editActive = false;
-        this.mw.close();
-        
-        switch(this.action){
-            case 'edit':
-                this.activeGroup.copy(this.editGroup);
-                break;
-            case 'new':
-                var ngroup : Group = new Group();
-                ngroup.copy(this.editGroup);
-                ngroup.setDistinguishedName();
-                
-                this.http.put(this.IP + "groups/" + ngroup.groupName, ngroup.stringify(), {headers: this.putHeader})
-                .subscribe(
-                    complete => {
-                        this.groups.push(ngroup);
-                        this.groups.slice();
-                    },
-                    error => alert(JSON.stringify(error))
-                );
-                console.log(this.IP + "groups/" + ngroup.groupName);
-                break;
-            case 'delete':
-                var index = this.groups.indexOf(this.activeGroup);
-                if (index > -1){
-                    this.http.delete(this.IP+"groups/"+this.activeGroup.groupName)
-                    .subscribe(
-                        complete => {
-                            this.groups = [
-                                ...this.groups.slice(0, index),
-                                ...this.groups.slice(index + 1, this.groups.length)
-                            ];
-                        },
-                        error => alert(JSON.stringify(error))
-                    );
-                }
-                break;
-            default:
-        }
+    addMember(){
+        this.membersModalService.search();
+        this.memberModal.open();
     }
     
-    toggleEdit(action:string){
-        this.editActive = !this.editActive;
-        
-        if(!this.editActive){
-            this.mw.close();    
-        } else {
-            this.mw.open();
-        }
-        
-        this.action = action;
+    submitMember(u: User){
+        this.crudModalService.addMember(u);
+        this.closeMemberModal();
     }
     
-    rowSelected(value){
-        if(this.activeGroup){
-            this.activeGroup.class = "";
-        }
-        value.class="active";
-        this.activeGroup = value;
-        if(this.action === 'edit'){
-            this.editGroup.copy(this.activeGroup);    
-        }
+    submit(){
+        this.closeCRUDModal();
+        this.crudModalService.submit(this);
+    }
+    
+    closeCRUDModal(){
+        this.crudModal.close();
+    }
+    
+    closeMemberModal(){
+        this.memberModal.close();
     }
 }

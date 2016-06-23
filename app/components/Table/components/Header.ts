@@ -1,5 +1,6 @@
 export class Header {
-    public name: string = "";
-    public style: string = "";
-    public tag: string = "";
+    
+    constructor(public name: string = "",
+        public style: string = "",
+        public tag: string = ""){}
 }

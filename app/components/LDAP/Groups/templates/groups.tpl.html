@@ -2,212 +2,72 @@
 <p>
 Create, modify and delete groups. Groups imported from your LDAP server can be visualized and deleted as well, but cannot be modified.
 </p>
-<div class="container-fluid" style="padding-right:0px;padding-left:0px">
-    <div class="col-xs-6 mycol">
-        <button type="button" class="btn btn-success" (click)="new()">New</button>
-        <button type="button" class="btn btn-warning" (click)="edit()">Edit</button>
-        <button type="button" class="btn btn-danger" (click)="delete()">Delete</button>
-    </div>
-    <div class="col-xs-6 mycol" style="margin-bottom:1%">
-        <input type="text" class="form-control" [(ngModel)]="value" placeholder="Search for...">
-    </div>
-</div>
+<bar>
+    <bar-item [position]="'left'"  [class]="'btn btn-success'" (click)="new()"    [name]="'New'"    [type]="'button'"></bar-item>
+    <bar-item [position]="'left'"  [class]="'btn btn-warning'" (click)="edit()"   [name]="'Edit'"   [type]="'button'"></bar-item>
+    <bar-item [position]="'left'"  [class]="'btn btn-danger'"  (click)="delete()" [name]="'Delete'" [type]="'button'"></bar-item>
+    <bar-item [position]="'right'" [class]="'btn btn-primary'" (click)="search()" [name]="'Search'" [type]="'input'" [placeholder]="'Search for ...'" [(val)]="groupsService.query"></bar-item>
+</bar>
 
-<table class="table table-bordered table-hover ">
-    <thead>
-        <tr>
-            <th valign="top" style="width: 10%" name="shortname">Group Name (User Name)</th>
-            <th style="width: 10%" name="displayname">Display Name</th>
-            <th style="width: 10%" name="distname">Distinguished Name</th>
-        </tr>
-    </thead>
-    <tbody>
-        <template ngFor let-group [ngForOf]="groups">
-        <tr class={{group.class}} (click)="rowSelected(group)">
-            <td>{{group.groupName}}</td>
-            <td>{{group.displayName}}</td>
-            <td>{{group.distinguishedName}}</td>
-        </tr>
-        </template>
-    </tbody>
-</table>
+<table-component [headerList]="groupsService.headers" [data]="groups" (selected)="crudModalService.selectGroupRow($event)"></table-component>
 
 <modal-dialog #nedgroup>
     <modal-header>
-        <h3>{{editHeader}}</h3>
+        <h3>{{crudModalService.modalHeader}}</h3>
         Provide the details of the group that you want to create in the IBM Navigator Console user directory.    
     </modal-header>
     <modal-body>
-        <form id="form1" (ngSubmit)="onSubmit()" class="container-fluid">   
+        <form id="formGroup1" (ngSubmit)="submit()" class="container-fluid">   
             <div class="col-xs-6">
             <fieldset class="form-group">
                 <label for="loginName">Group Name</label>
-                <input [(ngModel)]="editGroup.groupName" type="text" class="form-control" required>
+                <input [(ngModel)]="crudModalService.group.edit.groupName" type="text" class="form-control" required>
             </fieldset>
             </div>
             <input type="submit" class="hidden">
             <div class="col-xs-6">
             <fieldset class="form-group">
                 <label for="displayName">Display Name</label>
-                <input [(ngModel)]="editGroup.displayName" type="text" class="form-control" required>
+                <input [(ngModel)]="crudModalService.group.edit.displayName" type="text" class="form-control" required>
             </fieldset>
             </div>
             <button type="submit" class="hidden" ></button>
         </form>
-        <div class="container-fluid">
+        
         <h4>Group Members</h4>
-            <div class="col-xs-6 mycol">
-                <button type="button" class="btn btn-success" (click)="groupMember.toggle(self)">Add</button>
-                <button type="button" class="btn btn-warning" (click)="editGroupModal.remove(self)">Remove</button>
-            </div>
-        </div>
-        <div class="container-fluid" style="margin-top:1%">
-            <table class="table table-bordered table-hover ">
-            <thead>
-                <tr>
-                    <th valign="top" style="width: 10%" name="shortname">Short Name</th>
-                    <th style="width: 10%" name="displayname">Display Name</th>
-                    <th style="width: 10%" name="distname">Distinguished Name</th>
-                </tr>
-            </thead>
-            <tbody>
-                <template ngFor let-member [ngForOf]="editGroup.members">
-                <tr  class={{member.class}} (click)="editGroupModal.rowSelected(member)">
-                    <td>{{member.shortName}}</td>
-                    <td>{{member.displayName}}</td>
-                    <td>{{member.distinguishedName}}</td>
-                </tr>
-                </template>
-            </tbody>
-            </table>
-        </div>   
+        <bar>
+            <bar-item [position]="'left'"  [class]="'btn btn-success'" (click)="addMember()"                     [name]="'Add'"     [type]="'button'"></bar-item>
+            <bar-item [position]="'left'"  [class]="'btn btn-warning'" (click)="crudModalService.removeMember()" [name]="'Remove'"  [type]="'button'"></bar-item>
+        </bar>
+        <table-component [headerList]="crudModalService.tableHeaders" [data]="crudModalService.group.edit.members" (selected)="crudModalService.selectGroupRow($event)"></table-component>
+           
     </modal-body>
     <modal-footer>
         <div class="container-fluid">
-            <button type="submit" class="btn btn-primary" form="form1">Submit</button>
-            <button class="btn btn-danger" (click)="toggleEdit()" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary" form="formGroup1">Submit</button>
+            <button class="btn btn-danger" (click)="closeCRUDModal()" data-dismiss="modal">Close</button>
         </div> 
     </modal-footer>
 </modal-dialog>
 
-<div class="modal fade {{modalClass}}" style="display:block; background:hsla(0, 0%, 0%, 0.5)" *ngIf="editActive && !editGroupActive && false">
-<div class="modal-dialog modal-lg">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3>{{editHeader}}</h3>
-            Provide the details of the group that you want to create in the IBM Navigator Console user directory.
-        </div>
-        <div class="modal-body">
-            <form id="form1" (ngSubmit)="onSubmit()" class="container-fluid">   
-                <div class="col-xs-6">
-                <fieldset class="form-group">
-                    <label for="loginName">Group Name</label>
-                    <input [(ngModel)]="editGroup.groupName" type="text" class="form-control" required>
-                </fieldset>
-                </div>
-                <input type="submit" class="hidden">
-                <div class="col-xs-6">
-                <fieldset class="form-group">
-                    <label for="displayName">Display Name</label>
-                    <input [(ngModel)]="editGroup.displayName" type="text" class="form-control" required>
-                </fieldset>
-                </div>
-                <button type="submit" class="hidden" ></button>
-            </form>
-            <div class="container-fluid">
-            <h4>Group Members</h4>
-                <div class="col-xs-6 mycol">
-                    <button type="button" class="btn btn-success" (click)="groupMember.toggle(self)">Add</button>
-                    <button type="button" class="btn btn-warning" (click)="editGroupModal.remove(self)">Remove</button>
-                </div>
-            </div>
-            <div class="container-fluid" style="margin-top:1%">
-                <table class="table table-bordered table-hover ">
-                <thead>
-                    <tr>
-                        <th valign="top" style="width: 10%" name="shortname">Short Name</th>
-                        <th style="width: 10%" name="displayname">Display Name</th>
-                        <th style="width: 10%" name="distname">Distinguished Name</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <template ngFor let-member [ngForOf]="editGroup.members">
-                    <tr  class={{member.class}} (click)="editGroupModal.rowSelected(member)">
-                        <td>{{member.shortName}}</td>
-                        <td>{{member.displayName}}</td>
-                        <td>{{member.distinguishedName}}</td>
-                    </tr>
-                    </template>
-                </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <div class="container-fluid">
-                <button type="submit" class="btn btn-primary" form="form1">Submit</button>
-                <button class="btn btn-danger" (click)="toggleEdit()" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-</div>
 
-<div class="modal fade {{modalClass}}" style="display:block; background:hsla(0, 0%, 0%, 0.5)" *ngIf="groupMember.active">
-<div class="modal-dialog modal-lg">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3>Define Group Members</h3>
-            Search for users or groups then select the result entries you would like to add as group members.
+<modal-dialog #memberModal>
+    <modal-header>
+        <h3>Define Group Members</h3>
+        Search for users or groups then select the result entries you would like to add as group members.
+    </modal-header>
+    <modal-body>
+        <bar>
+            <bar-item [position]="'center'" [class]="'btn btn-primary'" (click)="membersModalService.resetAndSearch()" [name]="'Search'" [type]="'inputWOption'" [placeholder]="'Search for ' + membersModalService.groupOrUser" [(val)]="membersModalService.query" [(optVal)]="membersModalService.groupOrUser" (optVal)="membersModalService.gOuChange()" [options]="membersModalService.options"></bar-item>
+        </bar>
+
+        <infinite-table-component [headerList]="membersModalService.tableHeaders" [data]="membersModalService.data" (selected)="membersModalService.selectRow($event)" (scrolled)="membersModalService.scrollDown()"></infinite-table-component>
+       
+    </modal-body>
+    <modal-footer>
+        <div class="container-fluid">
+            <button type="submit" class="btn btn-primary" (click)="submitMember(membersModalService.selectedRow)">Submit</button>
+            <button class="btn btn-danger" (click)="closeMemberModal()" data-dismiss="modal">Cancel</button>
         </div>
-        <div class="modal-body">
-            <form id="form1" (ngSubmit)="groupMember.onSearch(self)" class="container-fluid">   
-                <div class="col-xs-6">
-                <fieldset class="form-group">
-                    <label for="gOu">Groups/Users</label>
-                    <select class="form-control" [(ngModel)]="groupMember.options.groupOrUser">
-                        <option value="groups">Groups</option>
-                        <option value="users">Users</option>
-                    </select>
-                </fieldset>
-                </div>
-                <input type="submit" class="hidden">
-                <div class="col-xs-6">
-                <fieldset class="form-group">
-                    <label for="displayName">Search</label>
-                    <input [(ngModel)]="groupMember.options.search" type="text">
-                </fieldset>
-                <button type="submit" >Search</button>
-                </div>
-               
-            </form>
-            <div class="container-fluid">
-            <div class="container-fluid" style="margin-top:1%">
-                <table class="table table-bordered table-hover ">
-                <thead>
-                    <tr>
-                        <th valign="top" style="width: 10%" name="shortname">Short Name</th>
-                        <th style="width: 10%" name="displayname">Display Name</th>
-                        <th style="width: 10%" name="distname">Distinguished Name</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <template ngFor let-member [ngForOf]="groupMember.elements">
-                    <tr class={{member.class}} (click)="groupMember.rowSelected(member)">
-                        <td>{{member.shortName}}</td>
-                        <td>{{member.displayName}}</td>
-                        <td>{{member.distinguishedName}}</td>
-                    </tr>
-                    </template>
-                </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <div class="container-fluid">
-                <button type="submit" class="btn btn-primary" (click)="groupMember.onSubmit(self)">Submit</button>
-                <button class="btn btn-danger" (click)="groupMember.toggle(self)" data-dismiss="modal">Cancel</button>
-            </div>
-        </div>
-    </div>
-</div>
-</div>
+    </modal-footer>
+</modal-dialog>

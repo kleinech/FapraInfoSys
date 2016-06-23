@@ -1,0 +1,26 @@
+.lrpadding {
+    padding-right: 0px;
+    padding-left: 0px;
+}
+
+.mycol {
+    margin-left: 0px;
+    margin-right: 0px;
+    
+    padding-left: 0px!important;
+    padding-right: 0px!important;
+    
+    padding-bottom: 4px;
+}
+
+input, button {
+    padding: 6px;
+}
+
+select {
+    padding: 7px;
+}
+
+optgroup {
+    margin: 3px;
+}

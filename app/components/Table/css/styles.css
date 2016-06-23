@@ -1,0 +1,31 @@
+.tbstyle {
+    word-break: break-all;
+}
+
+.infinitetbstyle {
+    word-break: break-all;
+}
+
+.infinitetbstyle tbody {
+    height:500px;
+    overflow-y:overlay;
+    overflow-x:hidden;
+    display: block;
+} 
+
+.infinitetbstyle tbody td, .infinitetbstyle tbody th{
+    width: 10%
+} 
+.infinitetbstyle thead td, .infinitetbstyle thead th{
+    width: 10%
+} 
+
+.infinitetbstyle table {
+    width:100%;
+    display: block;
+} 
+
+.infinitetbstyle thead {
+    width:100%;
+    display: block;
+} 

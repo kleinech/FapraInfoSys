@@ -1,15 +1,17 @@
 import { Type } from '@angular/core';
 
-import { GROUPS_DIRECTIVES } from './../Groups/index';
+import { GROUPS_DIRECTIVES, GROUPS_PROVIDERS } from './../Groups/index';
 import { ROLES_DIRECTIVES } from './../Roles/index';
-import { USERS_DIRECTIVES } from './../Users/index';
+import { USERS_DIRECTIVES, USERS_PROVIDERS } from './../Users/index';
 import { OTHERS_DIRECTIVES } from './../Others/index'
 
 import { LdapService } from './functions/ldap-service'; 
+import { LDAPHttpService } from './services/ldap-http.service';
 
 export * from './../Groups/index';
 export * from './../Roles/index';
 export * from './../Users/index';
+export * from './services/ldap-http.service';
 
 export * from './functions/ldap-service';
  
@@ -21,5 +23,8 @@ export const LDAP_DIRECTIVES: Type[] = [
 ];
 
 export const LDAP_PROVIDERS: Type[] = [
-    LdapService
+    LdapService,
+    LDAPHttpService,
+    ...GROUPS_PROVIDERS,
+    ...USERS_PROVIDERS
 ]

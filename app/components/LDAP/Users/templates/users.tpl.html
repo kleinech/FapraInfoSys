@@ -2,80 +2,19 @@
 <p>
 Create, edit or delete users. You can also view users that were imported from your LDAP server. However, you cannot modify those users from this administration client.
 </p>
+<bar>
+    <bar-item [position]="'left'"  [class]="'btn btn-success'" (click)="new()"    [name]="'New'"    [type]="'button'"></bar-item>
+    <bar-item [position]="'left'"  [class]="'btn btn-warning'" (click)="edit()"   [name]="'Edit'"   [type]="'button'"></bar-item>
+    <bar-item [position]="'left'"  [class]="'btn btn-danger'"  (click)="delete()" [name]="'Delete'" [type]="'button'"></bar-item>
+    <bar-item [position]="'left'"  [class]="'btn btn-success'" (click)="import()" [name]="'Import'" [type]="'button'"></bar-item>
+    
+    <bar-item [position]="'right'" [class]="'btn btn-primary'" (click)="search()" [name]="'Search'" [type]="'input'" [placeholder]="'Search for ...'" [(val)]="usersService.query"></bar-item>
+</bar>
 
-        
-<div class="container-fluid" style="padding-right:0px;padding-left:0px">
-<div class="col-xs-6 mycol">
-    <button type="button" class="btn btn-success" (click)="new()">New</button>
-    <button type="button" class="btn btn-warning" (click)="edit()">Edit</button>
-    <button type="button" class="btn btn-danger" (click)="delete()">Delete</button>
-    <button type="button" class="btn btn-success" (click)="btnImport()">Import</button>
-</div>
-<div class="col-xs-6 mycol" style="margin-bottom:1%">
-    <input type="text" class="form-control" [(ngModel)]="value" (ngModelChange)="queryChanged($event)" placeholder="Search for...">
-</div>
-</div>
-
-<div class="image-display container-fluid" *ngIf="editActive">
-    <form (ngSubmit)="onSubmit()" class="col-xs-12" style="padding-left:0px;padding-right:0px;margin-bottom: 0px;" >
-      <div class="col-xs-6">
-      <fieldset class="form-group">
-        <label for="loginName">Short Name</label>
-        <input [(ngModel)]="editUser.loginName" type="text" class="form-control" required>
-      </fieldset>
-      <fieldset class="form-group">
-        <label for="displayName">Display Name</label>
-        <input [(ngModel)]="editUser.displayName" type="text" class="form-control">
-      </fieldset>
-      </div>
-      <div class="col-xs-6">
-      <fieldset class="form-group">
-        <label for="email">Email</label>
-        <input [(ngModel)]="editUser.email" type="text" class="form-control">
-      </fieldset>
-      <fieldset class="form-group">
-        <label for="distinguishedname">Distinguished Name</label>
-        <input [(ngModel)]="editUser.distinguishedName" type="text" class="form-control">
-      </fieldset>
-      </div>
-      <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-</div>
-
-<div class="image-display container-fluid" *ngIf="importActive">
-    <form (ngSubmit)="onSubmit()" class="col-xs-12" style="padding-left:0px;padding-right:0px;margin-bottom: 0px;" >
-      <div class="col-xs-6">
-      <fieldset class="form-group">
-        <label for="fileImportName">File</label>
-        <input [(ngModel)]="editUser.loginName" type="text" class="form-control" required>
-      </fieldset>
-      <!--<fieldset class="form-group">
-      <<div class="column is-4">
-    <div class="message is-danger">
-      <div class="message-header">Basic Example</div>
-      <div class="message-body">
-        <div class="content">
-          <label class="tag btn is-danger">
-            <i class="fa fa-upload icon is-small"></i> Choose file
-            <input type="file" [ng-file-select]="options" (onUpload)="handleBasicUpload($event)">
-          </label>
-          <div class="progress">
-            <div class="progress-bar" [style.width]="basicProgress + '%'"></div>
-            <span class="percent">{{ basicProgress }}%</span>
-          </div>
-        </div>
-      </div>
+<div class="container-fluid" style="padding-right:0px;padding-left:0px;">
+    <div>
+        <label for="currLimit">Temporary</label>
     </div>
-  </div>
-      </fieldset>-->
-      </div>
-      <button type="submit" class="btn btn-primary">Upload</button>
-    </form>
-</div>
-
-
-<div class="container-fluid" style="padding-right:0px;padding-left:0px;float:left">
-    <div><div><label for="currLimit">Temporary</label></div> </div>
     <div>
         <div style="display: inline-block">
             <button type="button" class="btn btn-prevPage" (click)="btnTmpCreateMany()">Create Many Users</button>
@@ -87,45 +26,11 @@ Create, edit or delete users. You can also view users that were imported from yo
             <button type="button" class="btn btn-prevPage" (click)="btnClearUsers()">Clear List</button>
         </div>
     </div>
-    
 </div>
 
-<div style="height: 70%;
-overflow: auto;
-width: 100%;
-border: 1px solid #000;
-padding: 10px;" infinite-scroll
-            [infiniteScrollDistance]="2"
-            [infiniteScrollThrottle]="300"
-            (scrolled)="onScroll()"
-            [scrollWindow]="false"
-            >
-<table class="table table-bordered table-hover "
-            >
-    <thead>
-        <tr>
-            <th valign="top" style="width: 10%" name="shortname">Short Name (User Name)</th>
-            <th style="width: 10%" name="displayname">Display Name</th>
-            <th style="width: 10%" name="email">Email</th>
-            <th style="width: 10%" name="distname">Distinguished Name</th>
-        </tr>
-    </thead>
-    <tbody>
-            <template ngFor let-user [ngForOf]="users | userfilter : query">
-            <tr class={{user.class}} (click)="rowSelected(user)">
-                <td>{{user.loginName}}</td>
-                <td>{{user.displayName}}</td>
-                <td>{{user.email}}</td>
-                <td>{{user.distinguishedName}}</td>
-            </tr>
-            </template>
-    </tbody>
-</table>
-
-
-</div>
+<infinite-table-component [headerList]="usersService.headers" [data]="users" (selected)="crudModalService.selectRow($event)" (scrolled)="usersService.scrollDown()"></infinite-table-component>
     
- <div class="container-fluid" style="padding-right:0px;padding-left:0px;float:left">
+ <div class="container-fluid" style="padding-right:0px;padding-left:0px;">
     <div><div><label for="currLimit">Results per Page</label></div> </div>
     <div>
         <div style="display: inline-block">
@@ -146,5 +51,67 @@ padding: 10px;" infinite-scroll
     </div>
     
 </div>
+
+<modal-dialog #neduser>
+    <modal-header>
+        <h3>{{crudModalService.modalHeader}}</h3>
+        Provide the details of the user that you want to create in the IBM Navigator Console user directory.
+    </modal-header>
+    <modal-body>
+        <form id="formUser1" (ngSubmit)="submit()" class="container-fluid">
+            <div class="col-xs-6">
+                <fieldset class="form-group">
+                    <label for="loginName">Login Name</label>
+                    <input [(ngModel)]="crudModalService.user.edit.loginName" type="text" class="form-control" required>
+                </fieldset>
+                <fieldset class="form-group">
+                    <label for="loginName">Password</label>
+                    <input [(ngModel)]="crudModalService.user.edit.password" type="text" class="form-control" required>
+                </fieldset>
+                <fieldset class="form-group">
+                    <label for="displayName">Display Name</label>
+                    <input [(ngModel)]="crudModalService.user.edit.displayName" type="text" class="form-control">
+                </fieldset>
+            </div>
+            <div class="col-xs-6">
+                <fieldset class="form-group">
+                    <label for="email">Email</label>
+                    <input [(ngModel)]="crudModalService.user.edit.email" type="text" class="form-control">
+                </fieldset>
+                <fieldset class="form-group">
+                    <label for="distinguishedname">Distinguished Name</label>
+                    <input [(ngModel)]="crudModalService.user.edit.distinguishedName" type="text" class="form-control">
+                </fieldset>
+            </div>
+        </form> 
+    </modal-body>
+    <modal-footer>
+        <div class="container-fluid">
+            <button type="submit" class="btn btn-primary" form="formUser1">Submit</button>
+            <button class="btn btn-danger" (click)="closeCRUDModal()" data-dismiss="modal">Close</button>
+        </div> 
+    </modal-footer>
+</modal-dialog>       
+
+<modal-dialog #importuser>
+    <modal-header>
+        <h3>{{importModalService.modalHeader}}</h3>
+        Import group of users from file.
+    </modal-header>
+    <modal-body>
+        <form id="formUser2" (ngSubmit)="submitImport()" class="container-fluid">
+            <fieldset class="form-group">
+                <label for="fileImportName">File</label>
+                <input [(ngModel)]="importModalService.file" type="text" class="form-control" required>
+            </fieldset>
+        </form> 
+    </modal-body>
+    <modal-footer>
+        <div class="container-fluid">
+            <button type="submit" class="btn btn-primary" form="formUser2">Submit</button>
+            <button class="btn btn-danger" (click)="closeImportModal()" data-dismiss="modal">Close</button>
+        </div> 
+    </modal-footer>
+</modal-dialog> 
 
  

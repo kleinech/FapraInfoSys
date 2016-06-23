@@ -3,12 +3,14 @@ import { LdapService } from './../../shared/index';
 
 export class User {
     public shortName: string = "";
+    public class: string = "";
     private ldap: LdapService;
     constructor(
         public loginName: string = "",
         public email: string = "",
         public displayName: string = "",
-        public distinguishedName: string = ""
+        public distinguishedName: string = "",
+        public password: any = ""
     ){
         let injector = ReflectiveInjector.resolveAndCreate([LdapService]);
         this.ldap = injector.get(LdapService);
@@ -43,7 +45,8 @@ export class User {
         return '{"distinguishedName":"' + this.distinguishedName  
             + '","displayName":"' + this.displayName
             + '","loginName":"' + this.loginName
-            + '","password":"' + 'somepw'
+            + '","password":"' + this.password
+            + '","mail":"' + this.email
             +'"}';
         
     }
