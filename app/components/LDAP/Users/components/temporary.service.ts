@@ -1,4 +1,23 @@
-btnImport(){
+import { Injectable } from '@angular/core';
+
+import { Header } from './../../../Table/index';
+import { User, Users } from './../../shared/index';
+import { LDAPHttpService } from './../../shared/services/ldap-http.service'
+
+@Injectable()
+export class TemporaryService {
+    private editActive: boolean = false;
+    private importActive: boolean = false;
+    private currentStartIdx: number = 0;
+    private currentLimit: number = 0;
+    private action: string = "";
+    subscribeToUsers(){}
+    getMoreUsers(number){}
+    pushUser(User){}
+    removeUser(User){}
+    private users: Array<User> = new Array<User>();
+    
+    btnImport(){
         if(this.editActive === false || this.action === 'edit' || this.action === ''){
             this.importActive = this.editActive = !this.editActive;
         }
@@ -58,3 +77,4 @@ btnImport(){
     isInt(n){
         return Number(n) === n && n % 1 === 0;
     }
+}
