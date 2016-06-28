@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core'
 
 import { UsersService } from './users.service';
-import { CRUDModalService } from './crud-modal.service';
+import { UsersCRUDModalService } from './users-crud-modal.service';
 import { ImportModalService } from './import-modal.service';
 
 import { LDAPHttpService } from './../../shared/services/ldap-http.service'
@@ -27,7 +27,7 @@ export class Users {
     constructor(
             private ldapHttpService: LDAPHttpService,
             private usersService: UsersService,
-            private crudModalService: CRUDModalService,
+            private crudModalService: UsersCRUDModalService,
             private importModalService: ImportModalService){
         this.search();
         usersService.self = this;

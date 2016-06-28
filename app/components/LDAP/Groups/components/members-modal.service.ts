@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Header } from './../../../Table/index';
-import { CRUDModalService } from './crud-modal.service';
+import { GroupsCRUDModalService } from './groups-crud-modal.service';
 
 import { Groups, Group, User } from './../../shared/index';
 import { LDAPHttpService } from './../../shared/services/ldap-http.service'
@@ -18,7 +18,8 @@ export class MembersModalService {
         {
             val: "groups",
             name: "Groups"
-        });
+        }
+    );
         
     public gOuChange(){
         this.scroll.offset = 0;

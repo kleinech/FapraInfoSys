@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core'
 
 import { Group } from './group';
 import { GroupsService } from './groups.service';
-import { CRUDModalService } from './crud-modal.service';
+import { GroupsCRUDModalService } from './groups-crud-modal.service';
 import { MembersModalService } from './members-modal.service';
 import { User } from './../../shared/index';
 import { LDAPHttpService } from './../../shared/services/ldap-http.service'
@@ -28,7 +28,7 @@ export class Groups {
     constructor(
             private ldapHttpService: LDAPHttpService,
             private groupsService: GroupsService,
-            private crudModalService: CRUDModalService,
+            private crudModalService: GroupsCRUDModalService,
             private membersModalService: MembersModalService){
         this.search();
     }

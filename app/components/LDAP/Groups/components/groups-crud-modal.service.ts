@@ -5,7 +5,7 @@ import { Groups, Group, User } from './../../shared/index';
 import { LDAPHttpService } from './../../shared/services/ldap-http.service'
 
 @Injectable()
-export class CRUDModalService {
+export class GroupsCRUDModalService {
     public action: string = "";
     
     public modalHeader: string = "";

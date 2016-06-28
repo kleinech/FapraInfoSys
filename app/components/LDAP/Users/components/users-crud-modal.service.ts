@@ -5,7 +5,7 @@ import { User, Users } from './../../shared/index';
 import { LDAPHttpService } from './../../shared/services/ldap-http.service'
 
 @Injectable()
-export class CRUDModalService {
+export class UsersCRUDModalService {
     public action: string = "";
     
     public modalHeader: string = "";
