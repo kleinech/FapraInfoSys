@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core'
+import { Component, ViewChild, NgZone } from '@angular/core'
 
 import { UsersService } from './users.service';
 import { CRUDModalService } from './crud-modal.service';
@@ -12,15 +12,20 @@ import { MODAL_DIRECTIVES, ModalDialog } from './../../../ModalWindow/index';
 import { TABLE_DIRECTIVES, Header } from './../../../Table/index';
 import { MENUBAR_DIRECTIVES } from './../../../MenuBar/index';
 
+import {CORE_DIRECTIVES, FORM_DIRECTIVES, NgClass, NgStyle} from '@angular/common';
+import {FILE_UPLOAD_DIRECTIVES, FileUploader} from 'ng2-file-upload/ng2-file-upload';
+
 @Component({
     selector: 'users',
     templateUrl: './../templates/users.tpl.html',
-    directives: [ MODAL_DIRECTIVES, TABLE_DIRECTIVES, MENUBAR_DIRECTIVES],
+    directives: [ 
+        FILE_UPLOAD_DIRECTIVES, NgClass, NgStyle, CORE_DIRECTIVES, FORM_DIRECTIVES,
+        MODAL_DIRECTIVES, TABLE_DIRECTIVES, MENUBAR_DIRECTIVES],
     moduleId: module.id
 })
 export class Users {
     public users: Array<User> = new Array<User>();
-    
+    //zone: NgZone;
     @ViewChild('neduser') private crudModal: ModalDialog;
     @ViewChild('importuser') private importModal: ModalDialog;
    
@@ -31,6 +36,7 @@ export class Users {
             private importModalService: ImportModalService){
         this.search();
         usersService.self = this;
+        //this.zone = new NgZone({ enableLongStackTrace: false });
     }
     
     search(){

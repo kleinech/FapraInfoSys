@@ -39,7 +39,7 @@ Create, edit or delete users. You can also view users that were imported from yo
         <div style="display: inline-block">
             <div><input type="number" style="width:50px" class="form-control" [(ngModel)]="currentLimit" (ngModelChange)="limitChanged($event)" placeholder="Results per Page"></div>
         </div>
-        <div style="display: inline-block">
+        <div style="<display:></display:> inline-block">
             <button type="button" class="btn btn-prevPage" (click)="btnPreviousPage()">&lt;&lt;</button>
         </div>
         <div style="display: inline-block">
@@ -104,6 +104,13 @@ Create, edit or delete users. You can also view users that were imported from yo
                 <label for="fileImportName">File</label>
                 <input [(ngModel)]="importModalService.file" type="text" class="form-control" required>
             </fieldset>
+            <div ng2FileDrop
+                 [ngClass]="{'nv-file-over': importModalService.hasBaseDropZoneOver}"
+                 (fileOver)="importModalService.fileOverBase($event)"
+                 [uploader]="importModalService.uploader"
+                 class="well my-drop-zone">
+                Drop File Here
+            </div>
         </form> 
     </modal-body>
     <modal-footer>
