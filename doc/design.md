@@ -45,6 +45,10 @@ been around for almost two decades and many rely on it. It is
 well-maintained and practically platform-independent which makes it a
 perfect choice as base for an application.
 
+Some of the application's logic is written in Java. Java compiler and
+runtime are also available as well-tested open source implementation,
+namely the OpenJdk.
+
 # Architecture
 * Our specific aspect of the application is divided into three parts.
 * First, there is the front-end which must be a browser/web
