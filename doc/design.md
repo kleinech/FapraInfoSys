@@ -19,6 +19,23 @@
   of the important reasons why customers choose one provider over
   another.
 
+# Open Source Frameworks
+A primary goal of the project is to base the application as much as
+possible on open source technology. Part of the evaluation is to
+investigate if all major components can be rendered by open source
+software. It is also important to consider the interoperability of the
+open source components with one another and possibly with legacy
+(proprietary) software, that may still be in use. Free and
+open-source Software (FOSS) comes with several advantages. It comes
+free of charge and thus does not cause any licensing cost for the
+user. That way the (investment) risk is significantly lower for
+startups or small enterprises. Furthermore, it is also free in the
+sense of liberty. That is, it does not impose any restrictions or
+obscure requirements for the use of the software. Lastly, its source
+code is open to the public which usually leads to a greater amount of
+people reviewing, improving and testing the source code which in turn
+often provides a higher standard for security.
+
 # Architecture
 * Our specific aspect of the application is divided into three parts.
 * First, there is the front-end which must be a browser/web
