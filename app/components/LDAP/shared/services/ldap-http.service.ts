@@ -79,6 +79,7 @@ export class LDAPHttpService {
     }
     
     putUser(user:User){
+        console.log("Putting User " + user.loginName + " - " + user.stringify())
         return Observable.create(observer => {
             this.http.put(this.IP + "users/" + user.loginName, user.stringify(), {headers: this.putHeader})
             .subscribe(
@@ -88,6 +89,24 @@ export class LDAPHttpService {
                 }      
             );
         });
+    }
+    
+    postUsers(users : string){
+        
+        let res = JSON.parse(users);
+        let usersArr: Array<User> = new Array<User>();
+        res.forEach(jobj => usersArr.push(new User(jobj.loginName, jobj.email, jobj.displayName, jobj.distinguishedName, jobj.password)));
+        usersArr.forEach(it => this.putUser(it))
+        /*
+        return Observable.create(observer => {
+            this.http.put(this.IP + "users/test", users, {headers: this.putHeader})
+            .subscribe(
+                complete => {
+                    observer.next(users);
+                    observer.complete;
+                }, 
+                error => alert(JSON.stringify(error)));
+        });*/
     }
     
     deleteUser(user:User){
