@@ -1,2 +1,24 @@
 <h3>Roles</h3>
 <p>Roles control which users and groups can perform various actions. Select users or groups and then assign roles to those users or groups.</p>
+
+<div class="row">
+    <div class="col-xs-6">
+        <h4>Users or Groups</h4>
+        <bar>
+            <bar-item [position]="'center'" [class]="'btn btn-primary'" (click)="rolesService.resetAndSearch()" [name]="'Search'" [type]="'inputWOption'" [placeholder]="'Search for ' + rolesService.groupOrUser" [(val)]="rolesService.principal.query" [(optVal)]="rolesService.groupOrUser" (optValChange)="rolesService.resetAndSearch()" [options]="rolesService.options"></bar-item>
+        </bar>
+    </div>           
+    <div class="col-xs-6">
+        <h4>Assigned Roles</h4>
+        Assign roles to selected users or groups:           
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-6 container-fluid">
+        <infinite-table-component [headerList]="rolesService.principalHeaders" [data]="principals" (selected)="rolesService.selectPrincipalRow($event)" (scrolled)="rolesService.scrollDown()"></infinite-table-component>
+    </div>
+
+    <div class="col-xs-6">
+        <infinite-table-component [headerList]="rolesService.roleHeaders" [data]="roles" (selected)="crudModalService.selectRoleRow($event)" (scrolled)="crudModalService.scrollDown()"></infinite-table-component>
+    </div>
+</div>

@@ -11,11 +11,11 @@ export class UsersService {
     public changed = false;
     public self: Users;
     
-    public headers: Array<Header> = new Array(
-        new Header("Short Name (User Name)", "width: 10%", "loginName"),
-        new Header("Display Name", "width: 10%", "displayName"),
-        new Header("Email", "width: 10%", "email"),
-        new Header("Distinguished Name", "width: 10%", "distinguishedName")
+    public headers: Array<Header> = new Array<Header>(
+        new Header("Short Name (User Name)", "10%", "loginName"),
+        new Header("Display Name", "10%", "displayName"),
+        new Header("Email", "10%", "email"),
+        new Header("Distinguished Name", "20%", "distinguishedName")
     );
     
     public query: string = "";

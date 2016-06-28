@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
-import { Group, User } from './../index';
+import { Group, User, Role } from './../index';
 
 @Injectable()
 export class LDAPHttpService {
@@ -95,6 +95,41 @@ export class LDAPHttpService {
             this.http.delete(this.IP + "users/" + user.loginName)
             .subscribe( complete => {
                 observer.next(user);
+                observer.complete;
+            })
+        })
+    }
+    
+    getRoles(offset:number = 0, limit:number = 50, filter:string = ""){
+        return Observable.create(observer => {
+            this.http.get(this.IP + 'roles?offset=' + offset + '&limit=' + limit + '&filter=' + filter)
+            .subscribe(res => {
+                let roles: Array<Role> = new Array<Role>();
+                res.json().forEach(jobj => roles.push(new Role(jobj.name, jobj.owners, jobj.permissions)));
+                observer.next(roles);
+                observer.complete;
+            },
+            error => alert(JSON.stringify(error)));
+        });
+    }
+    
+    putRole(role:Role){
+        return Observable.create(observer => {
+            this.http.put(this.IP + "roles/" + role.roleName, role.stringify(), {headers: this.putHeader})
+            .subscribe(
+                complete => {
+                    observer.next(role);
+                    observer.complete;
+                }      
+            );
+        });
+    }
+    
+    deleteRole(role:Role){
+        return Observable.create(observer => {
+            this.http.delete(this.IP + "roles/" + role.roleName)
+            .subscribe( complete => {
+                observer.next(role);
                 observer.complete;
             })
         })
