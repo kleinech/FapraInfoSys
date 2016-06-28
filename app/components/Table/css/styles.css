@@ -8,8 +8,7 @@
 
 .infinitetbstyle tbody {
     height:500px;
-    overflow-y:overlay;
-    overflow-x:hidden;
+    overflow-x:overlay;
     display: block;
 } 
 

@@ -14,7 +14,6 @@ import { Header } from './Header';
                     <template ngFor let-header [ngForOf]="headerList">
                         <th [style.width]="header.style">{{header.name}}</th>
                     </template>
-                    <th style="width:1%"></th>
                 </tr>
             </thead>  
             <tbody class="search-results" infinite-scroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="200" (scrolled)="scrolled.emit($event)" [scrollWindow]="false">
@@ -33,7 +32,6 @@ import { Header } from './Header';
                                 </button>
                             </td>
                         </template>
-                        <td style="width:1%"></td>
                     </tr>
                 </template>
             </tbody>
