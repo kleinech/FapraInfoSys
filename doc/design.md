@@ -36,6 +36,15 @@ code is open to the public which usually leads to a greater amount of
 people reviewing, improving and testing the source code which in turn
 often provides a higher standard for security.
 
+The application's back-end is based on OpenLDAP, which ought to
+replace IBM's implementation of an LDAP server. Users, Groups and
+Roles are stored in LDAP's tree. OpenLDAP is a free and open source
+implementation, thus it provides all the advantages mentioned above
+while being fully compatible with other LDAP implementations.  It has
+been around for almost two decades and many rely on it. It is
+well-maintained and practically platform-independent which makes it a
+perfect choice as base for an application.
+
 # Architecture
 * Our specific aspect of the application is divided into three parts.
 * First, there is the front-end which must be a browser/web
