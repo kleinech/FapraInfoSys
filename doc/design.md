@@ -48,24 +48,30 @@ perfect choice as base for an application.
 # Architecture
 * Our specific aspect of the application is divided into three parts.
 * First, there is the front-end which must be a browser/web
-  application so that the user can access it easily.
+  application so that the user can access it easily. There is no need
+  to install a software suite. A more or less modern Browser should be
+  available on all targeted systems nowadays. Web applications can
+  easily be adapted to specific needs updates are easily delivered to
+  the user.
 * The back-end of the user/group management is an LDAP server. Groups
-  and Roles are both stored as groups.
+  and Roles are both stored as groups, the application makes the
+  necessary abstractions to give them differing meaning. LDAP has a
+  long history and is a well-established protocol.
 * In between there is a Java library which communicates with the LDAP
   server and provides a REST interface against which the front-end can
   issue requests.
 
 # Frontend
-* We decided to implement the front-end using Angular2. It allows for a
-  modern design and modern user experience. It offers many predesigned
-  means to display and input data as well as easy communication with
-  the REST interface of the middle layer.
+We decided to implement the front-end using Angular2. It allows for a
+modern design and modern user experience. It offers many predesigned
+means to display and input data as well as easy communication with
+the REST interface of the middle layer.
 
 # Middle Layer
-* The middle layer is a given Java library which (mostly for testing
-  purposes) runs as a standalone Java application. It can however be
-  easily integrated as a Java EE container and run as managed
-  application on a Java Application Server.
+The middle layer is a given Java library which (mostly for testing
+purposes) runs as a standalone Java application. It can however be
+easily integrated as a Java EE container and run as managed
+application on a Java Application Server.
 
 # Design Decisions
 ## Add User/Group dialog
