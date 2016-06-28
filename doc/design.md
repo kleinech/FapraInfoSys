@@ -49,6 +49,11 @@ Some of the application's logic is written in Java. Java compiler and
 runtime are also available as well-tested open source implementation,
 namely the OpenJdk.
 
+Angular2 is open-source and is executed on the user's machine using a
+JavaScript interpreter. The exact browser and engine are actually the
+user's choice, but there are plenty of open-source and
+platform-independent possibilities, such as Firefox or Chromium.
+
 # Architecture
 * Our specific aspect of the application is divided into three parts.
 * First, there is the front-end which must be a browser/web
