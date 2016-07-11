@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 
 import { Header } from './../../../Table/index';
-import { Role, Roles } from './../../shared/index';
+import { Role, Roles, Permission } from './../../shared/index';
 import { LDAPHttpService } from './../../shared/services/ldap-http.service'
+import { RolesService } from './roles.service';
 
 @Injectable()
 export class RolesCRUDModalService {
@@ -19,7 +20,12 @@ export class RolesCRUDModalService {
         active: new Role()
     };
     
-    constructor(private ldapHttpService: LDAPHttpService){}
+    public tableHeaders = new Array(
+        new Header("Permission", "width: 10%", "text")
+    );
+    
+    constructor(private ldapHttpService: LDAPHttpService,
+        private rolesService: RolesService){}
     
     public init(value: string){
         switch(value){
@@ -45,7 +51,23 @@ export class RolesCRUDModalService {
         this.role.active.class = "";
         g.class = "active";
         this.role.active = g;
-    }  
+    }
+    
+    public removePermission(p: Permission){
+        let index = this.role.edit.permissions.indexOf(p);
+        if (index > -1){
+            this.role.edit.permissions = [
+                ...this.role.edit.permissions.slice(0, index),
+                ...this.role.edit.permissions.slice(index + 1, this.role.edit.permissions.length)
+            ];
+        }
+    }
+    
+    public addPermission(p: Permission){
+        let permission = new Permission();
+        permission.copy(p);
+        this.role.edit.permissions.push(permission);
+    }
     
     public submit(self: Roles){
         switch(this.action){
@@ -56,17 +78,18 @@ export class RolesCRUDModalService {
                 });
                 break;
             case 'new':
-                var nrole : Role = new Role();
+                let nrole : Role = new Role();
                 nrole.copy(this.role.edit);
                 nrole.setDistinguishedName();
                 
                 this.ldapHttpService.putRole(nrole)
                 .subscribe( g => {
+                    this.rolesService.enrichRole(g);
                     self.roles.push(g);
                 })
                 break;
             case 'delete':
-                var index = self.roles.indexOf(this.role.active);
+                let index = self.roles.indexOf(this.role.active);
                 if (index > -1){
                     this.ldapHttpService.deleteRole(this.role.active)
                     .subscribe( g => {

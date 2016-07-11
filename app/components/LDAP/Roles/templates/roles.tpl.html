@@ -10,7 +10,11 @@
     </div>           
     <div class="col-xs-6">
         <h4>Assigned Roles</h4>
-        Assign roles to selected users or groups:           
+        <bar>
+            <bar-item [position]="'center'"  [class]="'btn btn-success'" (click)="new()"    [name]="'New'"    [type]="'button'"></bar-item>
+            <bar-item [position]="'center'"  [class]="'btn btn-warning'" (click)="edit()"   [name]="'Edit'"   [type]="'button'"></bar-item>
+            <bar-item [position]="'center'"  [class]="'btn btn-danger'"  (click)="delete()" [name]="'Delete'" [type]="'button'"></bar-item>
+        </bar>    
     </div>
 </div>
 <div class="row">
@@ -22,3 +26,72 @@
         <infinite-table-component [headerList]="rolesService.roleHeaders" [data]="roles" (selected)="crudModalService.selectRoleRow($event)" (scrolled)="crudModalService.scrollDown()"></infinite-table-component>
     </div>
 </div>
+
+<modal-dialog #nedrole>
+    <modal-header>
+        <h3>{{crudModalService.modalHeader}}</h3>
+        Provide the details of the role that you want to create in the IBM Navigator Console role directory.
+    </modal-header>
+    <modal-body>
+        <form id="formRole1" class="container-fluid">
+            <div class="col-xs-6">
+                <fieldset class="form-group">
+                    <label for="roleName">Role Name</label>
+                    <input [(ngModel)]="crudModalService.role.edit.roleName" type="text" [disabled]="crudModalService.action == 'edit'" class="form-control" required>
+                </fieldset>
+            </div>
+        </form> 
+        <h4>Role Permissions</h4>
+        <bar>
+            <bar-item [position]="'left'"  [class]="'btn btn-success'" (click)="newPermission()"                     [name]="'New'"     [type]="'button'"></bar-item>
+            <bar-item [position]="'left'"  [class]="'btn btn-warning'" (click)="editPermission()" [name]="'Edit'"  [type]="'button'"></bar-item>
+            <bar-item [position]="'left'"  [class]="'btn btn-danger'" (click)="deletePermission()" [name]="'Delete'"  [type]="'button'"></bar-item>
+        </bar>
+        <table-component [headerList]="crudModalService.tableHeaders" [data]="crudModalService.role.edit.permissions" (selected)="permissionCrudModalService.selectPermissionRow($event)"></table-component>
+    
+    </modal-body>
+    <modal-footer>
+        <div class="container-fluid">
+            <button type="submit" (click)="submit()" class="btn btn-primary">Submit</button>
+            <button class="btn btn-danger" (click)="closeCRUDModal()" data-dismiss="modal">Close</button>
+        </div> 
+    </modal-footer>
+</modal-dialog>       
+
+<modal-dialog #nedpermission>
+    <modal-header>
+        <h3>{{permissionCrudModalService.modalHeader}}</h3>
+        Provide permissions.
+    </modal-header>
+    <modal-body>
+        <form id="formPermission1" (ngSubmit)="submitPermission()" class="container-fluid">
+            <div class="col-xs-12">
+                <fieldset class="form-group">
+                    <label for="text">Permission text</label>
+                    <input [(ngModel)]="permissionCrudModalService.permission.edit.text" type="text" class="form-control" required>
+                </fieldset>
+            </div>
+        </form> 
+    </modal-body>
+    <modal-footer>
+        <div class="container-fluid">
+            <button type="submit" class="btn btn-primary" form="formPermission1">Submit</button>
+            <button class="btn btn-danger" (click)="closePermissionCRUDModal()" data-dismiss="modal">Close</button>
+        </div> 
+    </modal-footer>
+</modal-dialog>     
+
+<modal-dialog #infomodal>
+    <modal-header>
+        <h3>{{infoModalService.modalHeader}}</h3>
+        {{infoModalService.modalHeaderText}}
+    </modal-header>
+    <modal-body>
+        <div class="container-fluid" [innerHtml]="infoModalService.getPermissionHtml()" *ngIf="infoModalReady && infoModal.active"></div>
+    </modal-body>
+    <modal-footer>
+        <div class="container-fluid">
+            <button class="btn btn-danger" (click)="infoModalService.close()" data-dismiss="modal">Close</button>
+        </div> 
+    </modal-footer>
+</modal-dialog>  

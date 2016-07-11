@@ -27,9 +27,12 @@ import { Header } from './Header';
                                 
                             </td>
                             <td class="tdbuttonstyle" [style.width]="head.style" *ngIf="dt[head.tag]&&dt[head.tag].type=='infoButton'">
-                                <button class="btn btn-primary btn-xs" (click)="dt[head.tag].click">
-                                    <span class="glyphicon glyphicon-info-sign" aria-hidden="false "></span>
+                                <button class="btn btn-primary btn-xs" (click)="dt[head.tag].click(dt)">
+                                    <span class="glyphicon glyphicon-info-sign" aria-hidden="false"></span>
                                 </button>
+                            </td>
+                            <td class="tdbuttonstyle" [style.width]="head.style" *ngIf="dt[head.tag]&&dt[head.tag].type=='checkbox'">
+                                <input type="checkbox" class="checkbox" [(ngModel)]="dt[head.tag].value" (click)="dt[head.tag].click(dt, head.tag)" [disabled]="!dt[head.tag].active">
                             </td>
                         </template>
                     </tr>

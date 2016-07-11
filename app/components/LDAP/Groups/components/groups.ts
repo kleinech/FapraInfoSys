@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core'
+import { Component, ViewChild, AfterViewChecked } from '@angular/core'
 
 import { Group } from './group';
 import { GroupsService } from './groups.service';
@@ -30,6 +30,13 @@ export class Groups {
             private groupsService: GroupsService,
             private crudModalService: GroupsCRUDModalService,
             private membersModalService: MembersModalService){
+    }
+    
+    init(){
+        this.search();
+    }
+    
+    ngAfterView(){
         this.search();
     }
     

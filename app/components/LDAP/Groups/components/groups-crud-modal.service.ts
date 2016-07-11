@@ -62,7 +62,7 @@ export class GroupsCRUDModalService {
     
     
     public removeMember(){
-        var index = this.group.edit.members.indexOf(this.selectedMemberRow);
+        let index = this.group.edit.members.indexOf(this.selectedMemberRow);
         if (index > -1){
             this.group.edit.members = [
                 ...this.group.edit.members.slice(0, index),
@@ -86,7 +86,7 @@ export class GroupsCRUDModalService {
                 });
                 break;
             case 'new':
-                var ngroup : Group = new Group();
+                let ngroup : Group = new Group();
                 ngroup.copy(this.group.edit);
                 ngroup.setDistinguishedName();
                 
@@ -96,7 +96,7 @@ export class GroupsCRUDModalService {
                 })
                 break;
             case 'delete':
-                var index = self.groups.indexOf(this.group.active);
+                let index = self.groups.indexOf(this.group.active);
                 if (index > -1){
                     this.ldapHttpService.deleteGroup(this.group.active)
                     .subscribe( g => {

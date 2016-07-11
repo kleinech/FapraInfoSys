@@ -6,51 +6,11 @@ Create, edit or delete users. You can also view users that were imported from yo
     <bar-item [position]="'left'"  [class]="'btn btn-success'" (click)="new()"    [name]="'New'"    [type]="'button'"></bar-item>
     <bar-item [position]="'left'"  [class]="'btn btn-warning'" (click)="edit()"   [name]="'Edit'"   [type]="'button'"></bar-item>
     <bar-item [position]="'left'"  [class]="'btn btn-danger'"  (click)="delete()" [name]="'Delete'" [type]="'button'"></bar-item>
-    <bar-item [position]="'left'"  [class]="'btn btn-success'" (click)="import()" [name]="'Import'" [type]="'button'"></bar-item>
-    
+    <bar-item [position]="'left'"  [class]="'btn btn-success'" (click)="import()" [name]="'Import'" [type]="'button'"></bar-item>    
     <bar-item [position]="'right'" [class]="'btn btn-primary'" (click)="search()" [name]="'Search'" [type]="'input'" [placeholder]="'Search for ...'" [(val)]="usersService.query"></bar-item>
 </bar>
 
-<div class="container-fluid" style="padding-right:0px;padding-left:0px;">
-    <div>
-        <label for="currLimit">Temporary</label>
-    </div>
-    <div>
-        <div style="display: inline-block">
-            <button type="button" class="btn btn-prevPage" (click)="btnTmpCreateMany()">Create Many Users</button>
-        </div>
-        <div style="display: inline-block">
-            <button type="button" class="btn btn-prevPage" (click)="btnTmpRemoveMany()">Remove Many Users</button>
-        </div>
-        <div style="display: inline-block">
-            <button type="button" class="btn btn-prevPage" (click)="btnClearUsers()">Clear List</button>
-        </div>
-    </div>
-</div>
-
 <infinite-table-component [headerList]="usersService.headers" [data]="users" (selected)="crudModalService.selectRow($event)" (scrolled)="usersService.scrollDown()"></infinite-table-component>
-    
- <div class="container-fluid" style="padding-right:0px;padding-left:0px;">
-    <div><div><label for="currLimit">Results per Page</label></div> </div>
-    <div>
-        <div style="display: inline-block">
-            <button type="button" class="btn btn-prevPage" (click)="btnLoadMore()">Load More</button>
-        </div>
-        <div style="display: inline-block">
-            <div><input type="number" style="width:50px" class="form-control" [(ngModel)]="currentLimit" (ngModelChange)="limitChanged($event)" placeholder="Results per Page"></div>
-        </div>
-        <div style="display: inline-block">
-            <button type="button" class="btn btn-prevPage" (click)="btnPreviousPage()">&lt;&lt;</button>
-        </div>
-        <div style="display: inline-block">
-            <button type="button" class="btn btn-nextPage" (click)="btnNextPage()">&gt;&gt;</button>
-        </div>
-        <div style="display: inline-block">
-            <input type="number" style="width:50px" class="form-control" [(ngModel)]="currentStartIdx" (ngModelChange)="pageChanged($event)" placeholder="Current Start Index">
-        </div>    
-    </div>
-    
-</div>
 
 <modal-dialog #neduser>
     <modal-header>
@@ -66,7 +26,7 @@ Create, edit or delete users. You can also view users that were imported from yo
                 </fieldset>
                 <fieldset class="form-group">
                     <label for="loginName">Password</label>
-                    <input [(ngModel)]="crudModalService.user.edit.password" type="text" class="form-control" required>
+                    <input [(ngModel)]="crudModalService.user.edit.password" type="password" class="form-control" required>
                 </fieldset>
                 <fieldset class="form-group">
                     <label for="displayName">Display Name</label>

@@ -1,16 +1,28 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
+import { cn } from './../index';
 
-import { Group, User, Role } from './../index';
+import { Group, User, Role, Principal, Permission } from './../index';
+import { HttpAuthenticationService } from './http-authentication.service';
 
 @Injectable()
 export class LDAPHttpService {
     private IP: string = "http://localhost:8080/myapp/";
-    private putHeader: Headers = new Headers({
+    private getPutHeader(): Headers {
+        return new Headers({
             'Content-Type': 'application/json',
-    });
-    constructor(private http: Http){};
+        }); 
+    }
+    constructor(private http: HttpAuthenticationService){
+        this.authenticate().subscribe(()=>{});
+    };
+    
+    private user: string = "sysadmin";
+    private password: string = "passw0rd";
+    public authenticate(){
+        return this.http.authenticate(this.IP + 'authentication', this.user, this.password);
+    }
     
     getGroups(offset:number = 0, limit:number = 50, filter:string = ""){
         return Observable.create(observer => {
@@ -21,7 +33,7 @@ export class LDAPHttpService {
                 observer.next(groups);
                 observer.complete;
             },
-            error => alert(JSON.stringify(error)));
+            error => console.log(JSON.stringify(error)));
         });
     }
     
@@ -45,7 +57,7 @@ export class LDAPHttpService {
     
     putGroup(group:Group){
         return Observable.create(observer => {
-            this.http.put(this.IP + "groups/" + group.groupName, group.stringify(), {headers: this.putHeader})
+            this.http.put(this.IP + "groups/" + group.groupName, group.stringify(), {headers: this.getPutHeader()})
             .subscribe(
                 complete => {
                     observer.next(group);
@@ -74,13 +86,13 @@ export class LDAPHttpService {
                 observer.next(users);
                 observer.complete;
             },
-            error => alert(JSON.stringify(error)));
+            error => console.log(JSON.stringify(error)));
         });
     }
     
     putUser(user:User){
         return Observable.create(observer => {
-            this.http.put(this.IP + "users/" + user.loginName, user.stringify(), {headers: this.putHeader})
+            this.http.put(this.IP + "users/" + user.loginName, user.stringify(), {headers: this.getPutHeader()})
             .subscribe(
                 complete => {
                     observer.next(user);
@@ -105,22 +117,35 @@ export class LDAPHttpService {
             this.http.get(this.IP + 'roles?offset=' + offset + '&limit=' + limit + '&filter=' + filter)
             .subscribe(res => {
                 let roles: Array<Role> = new Array<Role>();
-                res.json().forEach(jobj => roles.push(new Role(jobj.name, jobj.owners, jobj.permissions)));
+                res.json().forEach(jobj => {
+                    let permissions: Array<Permission> = new Array<Permission>();
+                    jobj.permissions.forEach(p => permissions.push(new Permission(p)));
+                    roles.push(new Role(jobj.name, jobj.owners, permissions));
+                });
                 observer.next(roles);
                 observer.complete;
             },
-            error => alert(JSON.stringify(error)));
+            error => console.log(JSON.stringify(error)));
         });
     }
     
     putRole(role:Role){
         return Observable.create(observer => {
-            this.http.put(this.IP + "roles/" + role.roleName, role.stringify(), {headers: this.putHeader})
+            this.http.put(this.IP + "roles/" + role.roleName, role.stringify(), {headers: this.getPutHeader()})
             .subscribe(
                 complete => {
                     observer.next(role);
                     observer.complete;
-                }      
+                },
+                error => {
+                    if(error.status == 304){
+                        observer.next(role);
+                        observer.complete;
+                    } else {
+                        console.log(error);
+                        observer.complete
+                    }
+                }
             );
         });
     }
@@ -132,6 +157,38 @@ export class LDAPHttpService {
                 observer.next(role);
                 observer.complete;
             })
-        })
+        });
+    }
+    
+    getUserRoles(principal:Principal){
+        return Observable.create(observer => {
+           this.http.get(this.IP + "users/" + cn(principal.distinguishedName) + "/roles")
+           .subscribe( res => {
+                let roles: Array<Role> = new Array<Role>();
+                res.json().forEach(jobj => {
+                    let permissions: Array<Permission> = new Array<Permission>();
+                    jobj.permissions.forEach(p => permissions.push(new Permission(p)));
+                    roles.push(new Role(jobj.name, jobj.owners, permissions));
+                });
+                observer.next(roles);
+                observer.complete;
+           }) 
+        });
+    }
+    
+    getGroupRoles(principal:Principal){
+        return Observable.create(observer => {
+           this.http.get(this.IP + "groups/" + cn(principal.distinguishedName) + "/roles")
+           .subscribe( res => {
+                let roles: Array<Role> = new Array<Role>();
+                res.json().forEach(jobj => {
+                    let permissions: Array<Permission> = new Array<Permission>();
+                    jobj.permissions.forEach(p => permissions.push(new Permission(p)));
+                    roles.push(new Role(jobj.name, jobj.owners, permissions));
+                });
+                observer.next(roles);
+                observer.complete;
+           }) 
+        });
     }
 }

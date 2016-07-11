@@ -57,7 +57,7 @@ export class UsersCRUDModalService {
                 });
                 break;
             case 'new':
-                var nuser : User = new User();
+                let nuser : User = new User();
                 nuser.copy(this.user.edit);
                 nuser.setDistinguishedName();
                 
@@ -67,7 +67,7 @@ export class UsersCRUDModalService {
                 })
                 break;
             case 'delete':
-                var index = self.users.indexOf(this.user.active);
+                let index = self.users.indexOf(this.user.active);
                 if (index > -1){
                     this.ldapHttpService.deleteUser(this.user.active)
                     .subscribe( g => {
