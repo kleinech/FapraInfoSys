@@ -181,7 +181,7 @@ export class RolesService {
                             } 
                             ps.push(p);
                         });
-                        this.roles.principals = ps;
+                        this.roles.principals.push(...ps);
                     });
                     break;
                 case "users":
@@ -197,7 +197,7 @@ export class RolesService {
                             } 
                             ps.push(p);
                         });
-                        this.roles.principals = ps;
+                        this.roles.principals.push(...ps);
                     });
                     break;
                 default:
