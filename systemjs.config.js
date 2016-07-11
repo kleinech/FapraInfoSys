@@ -7,7 +7,8 @@
     'angular2-in-memory-web-api': 'node_modules/angular2-in-memory-web-api',
     '@angular':                   'node_modules/@angular',
     'angular2-infinite-scroll': 'node_modules/angular2-infinite-scroll',
-    //'angular2-ng2-uploader': 'node_modules/angular2-ng2-uploader'
+    'ng2-uploader': 'node_modules/ng2-uploader',
+    'ng2-file-upload': 'node_modules/ng2-file-upload'
     
   };
 
@@ -17,7 +18,9 @@
     'rxjs':                       { defaultExtension: 'js' },
     'angular2-in-memory-web-api': { defaultExtension: 'js' },
     'angular2-infinite-scroll':   { main: 'angular2-infinite-scroll.js', defaultExtension: 'js' },
-    //'angular2-ng2-uploader': {main: 'ng2-uploader.js', defaultExtension: 'js'}
+    'ng2-uploader': {main: 'ng2-uploader.ts', defaultExtension: 'ts'},
+    'ng2-file-upload': {main: 'ng2-file-upload.js', defaultExtension: 'js'}
+    
   };
 
   var packageNames = [

@@ -4,10 +4,20 @@ import { Header } from './../../../Table/index';
 import { User, Users } from './../../shared/index';
 import { LDAPHttpService } from './../../shared/services/ldap-http.service'
 
+import {Component} from '@angular/core';
+
+import {CORE_DIRECTIVES, FORM_DIRECTIVES, NgStyle} from '@angular/common';
+import {FILE_UPLOAD_DIRECTIVES, FileUploader, FileUploaderOptions} from 'ng2-file-upload/ng2-file-upload';
+
+const URL = 'http://localhost:8080/myapp/users';
+
 @Injectable()
 export class ImportModalService {
     public file: string = "";
-    
+    public uploader:FileUploader = new FileUploader({/*url: URL*/});
+    public hasBaseDropZoneOver:boolean = false;
+    public hasAnotherDropZoneOver:boolean = false;
+   
     public modalHeader: string = "";
     public modalHeaders = {
         default: "Import Users"
@@ -31,6 +41,23 @@ export class ImportModalService {
     }
     
     public submit(self: Users){
+        console.log("submitting....");
+        this.uploader.queue.forEach(it =>
+            {
+                console.log(it)
+                
+                let file : File = it._file;
+                var myReader:FileReader = new FileReader();
+                console.log(file.name)
+                myReader.onloadend = () => {
+                    console.log(myReader.result);
+                    this.ldapHttpService.postUsers(myReader.result)
+                }
+                myReader.readAsText(file);
+                
+            }
+        );
+        
         this.user.bulk.forEach(user => {
             user.setDistinguishedName();
             
@@ -39,5 +66,21 @@ export class ImportModalService {
                 self.users.push(u);
             });
         });
+        
     }
+    
+
+public fileOverBase(e:any):void {
+    this.hasBaseDropZoneOver = e;
+    console.log("fobase")
+  }
+
+  public fileOverAnother(e:any):void {
+    this.hasAnotherDropZoneOver = e;
+  }
+  
+  public uploadAll() {
+      console.log("Up All")
+  }
+  
 }
