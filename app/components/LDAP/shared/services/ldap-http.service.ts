@@ -9,25 +9,6 @@ import { HttpAuthenticationService } from './http-authentication.service';
 @Injectable()
 export class LDAPHttpService {
     private IP: string = "http://localhost:8080/myapp/";
-<<<<<<< HEAD
-    private putHeader: Headers = new Headers({
-            'Content-Type': 'application/json'
-    });
-    private token : any;
-    constructor(private http: Http){this.authenticate();};
-    
-    authenticate() {
-        console.log("Authenticating..")
-        let auth = this.http.post(this.IP + "authentication", 
-            '{"username": "sysadmin", "password": "passw0rd"}', {headers: this.putHeader})
-            .subscribe(res => {
-                this.token = res;
-                console.log(res);
-                error => alert(JSON.stringify(error));
-            });
-        console.log(auth);
-        console.log("auth end")
-=======
     private getPutHeader(): Headers {
         return new Headers({
             'Content-Type': 'application/json',
@@ -41,7 +22,6 @@ export class LDAPHttpService {
     private password: string = "passw0rd";
     public authenticate(){
         return this.http.authenticate(this.IP + 'authentication', this.user, this.password);
->>>>>>> refs/remotes/origin/master
     }
     
     getGroups(offset:number = 0, limit:number = 50, filter:string = ""){
