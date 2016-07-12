@@ -86,10 +86,10 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.98994949"
-     inkscape:cx="229.81456"
-     inkscape:cy="44.460011"
+     inkscape:cx="169.57957"
+     inkscape:cy="231.59028"
      inkscape:document-units="px"
-     inkscape:current-layer="g8185"
+     inkscape:current-layer="g6648"
      showgrid="false"
      inkscape:window-width="1600"
      inkscape:window-height="873"
@@ -136,111 +136,110 @@
          x="37.375637"
          y="59.887329"
          id="tspan4311" /></text>
+    <rect
+       style="opacity:1;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.69147408;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect4138"
+       width="119.25652"
+       height="90.972244"
+       x="315.2753"
+       y="323.38382" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:7.5px;line-height:125%;font-family:Sans;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="374.79614"
+       y="346.14154"
+       id="text4144"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4146"
+         x="374.79614"
+         y="346.14154"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20px;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, ';text-align:center;text-anchor:middle">User</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:7.5px;line-height:125%;font-family:Sans;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="322.37564"
+       y="365.33444"
+       id="text4161"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4163"
+         x="322.37564"
+         y="365.33444">loginName: String</tspan><tspan
+         sodipodi:role="line"
+         x="322.37564"
+         y="374.70944"
+         id="tspan4169">email : String</tspan><tspan
+         sodipodi:role="line"
+         x="322.37564"
+         y="384.08444"
+         id="tspan4171">password: String</tspan></text>
     <g
-       id="g4288"
-       transform="translate(283.48477,305.4471)">
+       id="g4192"
+       transform="matrix(1.0008308,0,0,1.0729133,283.40882,267.17409)">
       <rect
-         y="17.965998"
-         x="31.819805"
-         height="107.07616"
+         style="opacity:1;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.62830102;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+         id="rect4194"
          width="119.198"
-         id="rect4138"
-         style="opacity:1;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
-      <text
-         sodipodi:linespacing="125%"
-         id="text4144"
-         y="40.694431"
-         x="91.311386"
-         style="font-style:normal;font-weight:normal;font-size:7.5px;line-height:125%;font-family:Sans;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-         xml:space="preserve"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20px;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, ';text-align:center;text-anchor:middle"
-           y="40.694431"
-           x="91.311386"
-           id="tspan4146"
-           sodipodi:role="line">User</tspan></text>
-      <text
-         sodipodi:linespacing="125%"
-         id="text4161"
-         y="59.887329"
-         x="38.890873"
-         style="font-style:normal;font-weight:normal;font-size:7.5px;line-height:125%;font-family:Sans;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-         xml:space="preserve"><tspan
-           y="59.887329"
-           x="38.890873"
-           id="tspan4163"
-           sodipodi:role="line">loginName: String</tspan><tspan
-           id="tspan4165"
-           y="69.262329"
-           x="38.890873"
-           sodipodi:role="line">email : String</tspan><tspan
-           id="tspan4167"
-           y="78.637329"
-           x="38.890873"
-           sodipodi:role="line">displayName: String</tspan><tspan
-           id="tspan4169"
-           y="88.012329"
-           x="38.890873"
-           sodipodi:role="line">distinguishedName: String</tspan><tspan
-           id="tspan4171"
-           y="97.387329"
-           x="38.890873"
-           sodipodi:role="line">password: String</tspan></text>
-      <g
-         transform="matrix(1,0,0,1.4249084,0,-66.222752)"
-         id="g4192">
-        <rect
-           y="79.595276"
-           x="31.819805"
-           height="39.794086"
-           width="119.198"
-           id="rect4194"
-           style="opacity:1;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.62830102;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
-      </g>
+         height="39.794086"
+         x="31.819805"
+         y="79.595276" />
     </g>
+    <text
+       sodipodi:linespacing="125%"
+       id="text8464"
+       y="239.62015"
+       x="322.37564"
+       style="font-style:normal;font-weight:normal;font-size:7.5px;line-height:125%;font-family:Sans;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       xml:space="preserve"><tspan
+         id="tspan8470"
+         y="239.62015"
+         x="322.37564"
+         sodipodi:role="line">displayName: String</tspan><tspan
+         id="tspan8472"
+         y="248.99515"
+         x="322.37564"
+         sodipodi:role="line">distinguishedName: String</tspan><tspan
+         id="tspan8474"
+         y="258.37015"
+         x="322.37564"
+         sodipodi:role="line" /></text>
     <g
-       id="g8433"
-       transform="translate(0,12.626907)">
+       id="g8516"
+       transform="translate(0,10)">
       <rect
-         style="opacity:1;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.70386386;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+         style="opacity:1;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.62230045;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
          id="rect4203"
-         width="119.24413"
-         height="94.271309"
-         x="492.56329"
-         y="186.51437" />
+         width="119.3257"
+         height="73.638588"
+         x="492.52252"
+         y="199.10049" />
       <text
          xml:space="preserve"
          style="font-style:normal;font-weight:normal;font-size:7.5px;line-height:125%;font-family:Sans;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
          x="552.07794"
-         y="209.26585"
+         y="221.89276"
          id="text4205"
          sodipodi:linespacing="125%"><tspan
            sodipodi:role="line"
            id="tspan4207"
            x="552.07794"
-           y="209.26585"
+           y="221.89276"
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20px;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, ';text-align:center;text-anchor:middle">Group</tspan></text>
       <text
          xml:space="preserve"
          style="font-style:normal;font-weight:normal;font-size:7.5px;line-height:125%;font-family:Sans;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
          x="499.65741"
-         y="228.45876"
+         y="241.08566"
          id="text4209"
          sodipodi:linespacing="125%"><tspan
            sodipodi:role="line"
            x="499.65741"
-           y="228.45876"
-           id="tspan4215">groupName: String</tspan><tspan
-           sodipodi:role="line"
-           x="499.65741"
-           y="237.83376"
-           id="tspan8443">displayName: String</tspan><tspan
-           sodipodi:role="line"
-           x="499.65741"
-           y="247.20876"
-           id="tspan4219">distinguishedName: String</tspan></text>
+           y="241.08566"
+           id="tspan4219">groupName: String</tspan></text>
       <g
          id="g4221"
-         transform="matrix(1.0008305,0,0,1.0733517,460.69062,130.24738)">
+         transform="matrix(1.0020808,0,0,0.63756865,460.57632,177.48135)">
         <rect
            style="opacity:1;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.62830102;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
            id="rect4223"
@@ -415,7 +414,7 @@
            y="221.3877"
            x="266.93903"
            id="tspan4305"
-           sodipodi:role="line">Member</tspan></text>
+           sodipodi:role="line">Principal</tspan></text>
       <g
          transform="matrix(1,0,0,0.67797959,175.62763,173.88444)"
          id="g4313">

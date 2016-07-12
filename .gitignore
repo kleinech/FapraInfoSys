@@ -3,5 +3,5 @@
 /typings/*
 /node_modules/*
 npm-debug.log
-/doc/**/*.pdf
+/doc/**/pres.pdf
 /doc/**/*.gz
