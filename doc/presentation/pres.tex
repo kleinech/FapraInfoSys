@@ -153,9 +153,37 @@
 	\end{columns}
 \end{frame}
 
-\begin{frame}
+\begin{frame}[fragile]
 	\frametitle{LDAP Server Structure}
-	%TODO: nach ldap-slide "LDAP Server-Struktur"
+	\lstset{%
+		basicstyle=\tiny
+	}
+	\begin{lstlisting}
+SCCM: {
+	bindusr : [],
+	customer: {
+		groups: {
+			...
+		},
+	}
+	users: {
+		caseadmin: [
+			cn: caseadmin,
+			objectclass: inetOrgPerson,
+			objectclass: organizationalPerson,
+			objectclass: person,
+			objectclass: top,
+			sn: caseadmin,
+			displayname: "Case Administrator",
+			uid: caseadmin,
+			userpassword: ***,
+			...
+		],
+		domainadmin: [...],
+		...
+	}
+}
+	\end{lstlisting}
 \end{frame}
 
 \againframe<4>{archgraph}
