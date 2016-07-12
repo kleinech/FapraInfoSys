@@ -81,6 +81,9 @@
 	\only<4>{%
 		\frametitle{Architecture — Java middle layer}
 	}
+	\only<5>{%
+		\frametitle{Architecture — Web-Application}
+	}
 	\begin{columns}[T]
 		\begin{column}{0.48\textwidth}
 			\begin{tikzpicture}
@@ -126,6 +129,14 @@
 					\item REST interface
 					\item connects with LDAP-Server
 					\item accepts requests, executes, provides response
+				\end{itemize}
+			}
+			\only<5>{%
+				\begin{itemize}
+					\item based on Angular 2
+					\item Makes REST calls to middle layer
+					\item displays data, responses, handles user interaction
+					\item attempt: minimize data transfer
 				\end{itemize}
 			}
 		\end{column}
