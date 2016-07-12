@@ -10,13 +10,15 @@ export class LDAPHttpService {
     private putHeader: Headers = new Headers({
             'Content-Type': 'application/json'
     });
+    private token : any;
     constructor(private http: Http){this.authenticate();};
     
     authenticate() {
         console.log("Authenticating..")
         let auth = this.http.post(this.IP + "authentication", 
-            '{"username": "User_1", "password": ""}', {headers: this.putHeader})
+            '{"username": "sysadmin", "password": "passw0rd"}', {headers: this.putHeader})
             .subscribe(res => {
+                this.token = res;
                 console.log(res);
                 error => alert(JSON.stringify(error));
             });
