@@ -79,7 +79,7 @@
 
 \section{Architecture}
 \subsection{Overview}
-\begin{frame}<1,2,3>[label=archgraph]
+\begin{frame}<1,2>[label=archgraph]
 	\only<1,2>{%
 		\frametitle{Architecture — Overview}
 	}
@@ -153,6 +153,9 @@
 	\end{columns}
 \end{frame}
 
+\subsection{LDAP-Server}
+\againframe<3>{archgraph}
+
 \begin{frame}[fragile]
 	\frametitle{LDAP Server Structure}
 	\lstset{%
@@ -186,13 +189,19 @@ SCCM: {
 	\end{lstlisting}
 \end{frame}
 
+\subsection{Middle Layer}
 \againframe<4>{archgraph}
+
+\begin{frame}
+	\frametitle{Java Middle Layer}
+\end{frame}
 
 \begin{frame}
 	\frametitle{Example Request}
 	%TODO: nach java middlekack: "Beispiel Request"
 \end{frame}
 
+\subsection{Frontend}
 \againframe<5>{archgraph}
 
 \begin{frame}
