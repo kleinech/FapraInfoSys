@@ -69,6 +69,21 @@
 	\end{tcolorbox}
 \end{frame}
 
+\section{Architecture}
+\subsection{Overview}
+\begin{frame}
+	\frametitle{Architecture}
+	\begin{tikzpicture}
+		\tikzset{every rectangle node/.style={draw, rectangle}}
+		\node (frontend) at (0, 3) {Web-Application};
+		\node (middleend) at (0, 0) {Java middle layer};
+		\node (ldap) at (0, -3) {LDAP Server};
+
+		\draw[<->] (frontend) to[] (middleend);
+		\draw[<->] (middleend) to[] (ldap);
+	\end{tikzpicture}
+\end{frame}
+
 \section{Questions?}
 
 \end{document}
