@@ -193,7 +193,21 @@ SCCM: {
 \againframe<4>{archgraph}
 
 \begin{frame}
-	\frametitle{Java Middle Layer}
+	\frametitle{Middle Layer}
+	\begin{itemize}
+		\item written in Java
+		\item Uses Jersey to provide REST interface
+		\item shallow model of data
+			\begin{itemize}
+				\item User
+				\item Group
+				\item Role
+			\end{itemize}
+		\item Actions to manipulate data and query data
+		\item \dots\ are passed through to back-end using LDAP requests
+		\item \textbf{Authentication}: protects back-end from
+			unauthorized access
+	\end{itemize}
 \end{frame}
 
 \begin{frame}
