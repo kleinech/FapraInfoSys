@@ -51,7 +51,7 @@
 		based on open-source software.
 	\end{tcolorbox}
 	\begin{itemize}
-		\item Easily extendible web application
+		\item Easily extensible web application
 		\item Usability
 		\item Free and Open-Source Software (FOSS)
 	\end{itemize}
@@ -70,9 +70,16 @@
 	\end{tcolorbox}
 \end{frame}
 
+\section{Security Model}
+\subsection{Structure}
+\begin{frame}
+	\frametitle{Security Model}
+	%TODO: class diagram
+\end{frame}
+
 \section{Architecture}
 \subsection{Overview}
-\begin{frame}%<1>[label=archgraph]
+\begin{frame}<1,2,3>[label=archgraph]
 	\only<1,2>{%
 		\frametitle{Architecture — Overview}
 	}
@@ -118,10 +125,11 @@
 			}
 			\only<3>{%
 				\begin{itemize}
-					\item persistence back-end
-					\item stores users, groups, roles
+					\item LDAP = ``Lightweight Directory Access Protocol''
+					\item persistence back-end (database)
+					\item authentication, querying and modification of data
+					\item data: users, groups, roles
 					\item roles are special groups
-					\item CRUD
 				\end{itemize}
 			}
 			\only<4>{%
@@ -130,6 +138,7 @@
 					\item REST interface
 					\item connects with LDAP-Server
 					\item accepts requests, executes, provides response
+					\item stateless
 				\end{itemize}
 			}
 			\only<5>{%
@@ -142,6 +151,24 @@
 			}
 		\end{column}
 	\end{columns}
+\end{frame}
+
+\begin{frame}
+	\frametitle{LDAP Server Structure}
+	%TODO: nach ldap-slide "LDAP Server-Struktur"
+\end{frame}
+
+\againframe<4>{archgraph}
+
+\begin{frame}
+	\frametitle{Example Request}
+	%TODO: nach java middlekack: "Beispiel Request"
+\end{frame}
+
+\againframe<5>{archgraph}
+
+\begin{frame}
+	\frametitle{Angular 2}
 \end{frame}
 
 \section{Implementation}
