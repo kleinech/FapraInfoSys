@@ -199,22 +199,22 @@ SCCM: {
 		groups: {
 			...
 		},
-	}
-	users: {
-		caseadmin: [
-			cn: caseadmin,
-			objectclass: inetOrgPerson,
-			objectclass: organizationalPerson,
-			objectclass: person,
-			objectclass: top,
-			sn: caseadmin,
-			displayname: "Case Administrator",
-			uid: caseadmin,
-			userpassword: ***,
+		users: {
+			caseadmin: [
+				cn: caseadmin,
+				objectclass: inetOrgPerson,
+				objectclass: organizationalPerson,
+				objectclass: person,
+				objectclass: top,
+				sn: caseadmin,
+				displayname: "Case Administrator",
+				uid: caseadmin,
+				userpassword: ***,
+				...
+			],
+			domainadmin: [...],
 			...
-		],
-		domainadmin: [...],
-		...
+		}
 	}
 }
 	\end{lstlisting}
