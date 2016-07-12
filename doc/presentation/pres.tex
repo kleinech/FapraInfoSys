@@ -71,14 +71,33 @@
 
 \section{Architecture}
 \subsection{Overview}
-\begin{frame}
-	\frametitle{Architecture}
+\begin{frame}%<1>[label=archgraph]
+	\only<1,2>{%
+		\frametitle{Architecture — Overview}
+	}
+	\only<3>{%
+		\frametitle{Architecture — LDAP-Server}
+	}
+	\only<4>{%
+		\frametitle{Architecture — Java middle layer}
+	}
 	\begin{columns}[T]
 		\begin{column}{0.48\textwidth}
 			\begin{tikzpicture}
-				\tikzset{every rectangle node/.style={draw, rectangle}}
+				\tikzset{every rectangle node/.style={draw, rectangle, color=gray}}
+				\only<5>{%
+					\tikzset{every rectangle node/.style={draw, rectangle, color=red}}
+				}
 				\node (frontend) at (0, 3) {Web-Application};
+				\tikzset{every rectangle node/.style={draw, rectangle, color=gray}}
+				\only<4>{%
+					\tikzset{every rectangle node/.style={draw, rectangle, color=red}}
+				}
 				\node (middleend) at (0, 0) {Java middle layer};
+				\tikzset{every rectangle node/.style={draw, rectangle, color=gray}}
+				\only<3>{%
+					\tikzset{every rectangle node/.style={draw, rectangle, color=red}}
+				}
 				\node (ldap) at (0, -3) {LDAP Server};
 
 				\draw[<->] (frontend) to[] (middleend);
@@ -86,16 +105,29 @@
 			\end{tikzpicture}
 		\end{column}
 		\begin{column}{0.48\textwidth}
-			\begin{itemize}
-				\item Web-Application as user interface
-				\item Java middle layer as intermediate program logic
+			\only<2>{%
 				\begin{itemize}
-					\item provides REST interface
-					\item accepts action requests
-					\item provides response
+					\item Web-Application as user interface
+					\item Java middle layer as intermediate program logic
+					\item LDAP-Server as persistent storage
 				\end{itemize}
-			\item LDAP-Server as persistent storage
-			\end{itemize}
+			}
+			\only<3>{%
+				\begin{itemize}
+					\item persistence back-end
+					\item stores users, groups, roles
+					\item roles are special groups
+					\item CRUD
+				\end{itemize}
+			}
+			\only<4>{%
+				\begin{itemize}
+					\item connects front- with back-end
+					\item REST interface
+					\item connects with LDAP-Server
+					\item accepts requests, executes, provides response
+				\end{itemize}
+			}
 		\end{column}
 	\end{columns}
 \end{frame}
