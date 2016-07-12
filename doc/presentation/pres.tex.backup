@@ -13,7 +13,6 @@
 \usepackage[scale=2]{ccicons}
 \usepackage{pgfplots}
 \usepackage{xspace}
-\usepackage{listings}
 \usepgfplotslibrary{dateplot}
 \usetikzlibrary{shapes,snakes}
 
@@ -25,35 +24,6 @@
 \date{\today}
 
 \begin{document}
-
-
-
-\lstdefinestyle{customc}{
-  belowcaptionskip=1\baselineskip,
-  breaklines=true,
-  frame=L,
-  xleftmargin=\parindent,
-  language=java,
-  showstringspaces=false,
-  basicstyle=\footnotesize\ttfamily,
-  keywordstyle=\bfseries\color{green!40!black},
-  commentstyle=\itshape\color{purple!40!black},
-  identifierstyle=\color{blue},
-  stringstyle=\color{orange},
-}
-
-\lstdefinestyle{customasm}{
-  belowcaptionskip=1\baselineskip,
-  frame=L,
-  xleftmargin=\parindent,
-  language=[x86masm]Assembler,
-  basicstyle=\footnotesize\ttfamily,
-  commentstyle=\itshape\color{purple!40!black},
-}
-
-\lstset{escapechar=@,style=customc}
-
-
 
 \frame{\titlepage}
 
@@ -190,22 +160,9 @@
 
 \againframe<4>{archgraph}
 
-\begin{frame}[fragile]
+\begin{frame}
 	\frametitle{Example Request}
 	%TODO: nach java middlekack: "Beispiel Request"
-	\textbf{Example Query:} Get X users at position Y
-	\begin{itemize}
-	 \item Receive filtered enumeration from LDAP containing users in the specified range Y to X
-	 \item Build list of users
-	 \item Send Response to Application Layer
-	\end{itemize}
-\begin{lstlisting}[frame=single]
-public NamingEnumeration<SearchResult> search(
-            String base,
-            String filter,
-            Object[] filterArgs,
-            int limit ) throws NamingException
-\end{lstlisting}
 \end{frame}
 
 \againframe<5>{archgraph}
