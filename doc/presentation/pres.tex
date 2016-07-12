@@ -194,13 +194,13 @@
 	}
 	\begin{lstlisting}
 SCCM: {
-	bindusr : [],
+	bindusr : {...},
 	customer: {
-		groups: {
+		groups: [
 			...
-		},
-		users: {
-			caseadmin: [
+		],
+		users: [
+			caseadmin: {
 				cn: caseadmin,
 				objectclass: inetOrgPerson,
 				objectclass: organizationalPerson,
@@ -211,10 +211,10 @@ SCCM: {
 				uid: caseadmin,
 				userpassword: ***,
 				...
-			],
-			domainadmin: [...],
+			},
+			domainadmin: {...},
 			...
-		}
+		]
 	}
 }
 	\end{lstlisting}
