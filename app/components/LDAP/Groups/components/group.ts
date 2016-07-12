@@ -1,21 +1,16 @@
-import { ReflectiveInjector } from '@angular/core';
-import { User, LdapService } from './../../shared/index';
+import { User, cn, escape } from './../../shared/index';
 
 export class Group {
     public class: string = "";
     public groupName: string = "";
     public description: string = "";
-    private ldap: LdapService;
     
     constructor(
         public distinguishedName: string = "",
         public displayName: string = "",
         public members: Array<User> = new Array<User>()
     ){
-        let injector = ReflectiveInjector.resolveAndCreate([LdapService]);
-        this.ldap = injector.get(LdapService);
-
-        this.groupName = this.ldap.cn(distinguishedName);
+        this.groupName = cn(distinguishedName);
     }
     
     public copy(group: Group){
@@ -28,7 +23,7 @@ export class Group {
     }
     
     setDistinguishedName(){
-        this.distinguishedName = "cn=" + this.ldap.escape(this.groupName) + ",ou=groups,ou=customer,o=sccm";
+        this.distinguishedName = "cn=" + escape(this.groupName) + ",ou=groups,ou=customer,o=sccm";
     }
     
     getMemberStrings(): String[]{

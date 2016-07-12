@@ -34,9 +34,12 @@ export class Users {
             private usersService: UsersService,
             private crudModalService: UsersCRUDModalService,
             private importModalService: ImportModalService){
-        this.search();
         usersService.self = this;
         //this.zone = new NgZone({ enableLongStackTrace: false });
+    }
+    
+    init(){
+        this.search();
     }
     
     search(){
@@ -87,5 +90,5 @@ export class Users {
     
     closeImportModal(){
         this.importModal.close();
-    } 
+    }
 }

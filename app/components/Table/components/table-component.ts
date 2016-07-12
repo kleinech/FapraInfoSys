@@ -18,7 +18,20 @@ import { Header } from './Header';
                 <template ngFor let-dt [ngForOf]="data">
                     <tr class={{dt.class}} (click)="handleSelection(dt)">
                         <template ngFor let-head [ngForOf]="headerList">
-                            <td>{{dt[head.tag]}}</td>
+                            <td [style.width]="head.style" *ngIf="dt[head.tag]&&!dt[head.tag].type">
+                                {{dt[head.tag]}}
+                            </td>
+                            <td [style.width]="head.style" *ngIf="!dt[head.tag]">
+                                
+                            </td>
+                            <td class="tdbuttonstyle" [style.width]="head.style" *ngIf="dt[head.tag]&&dt[head.tag].type=='infoButton'">
+                                <button class="btn btn-primary btn-xs" (click)="dt[head.tag].click(dt)">
+                                    <span class="glyphicon glyphicon-info-sign" aria-hidden="false"></span>
+                                </button>
+                            </td>
+                            <td class="tdbuttonstyle" [style.width]="head.style" *ngIf="dt[head.tag]&&dt[head.tag].type=='checkbox'">
+                                <input type="checkbox" class="checkbox" [(ngModel)]="dt[head.tag].value" (click)="dt[head.tag].click(dt, head.tag)">
+                            </td>
                         </template>
                     </tr>
                 </template>

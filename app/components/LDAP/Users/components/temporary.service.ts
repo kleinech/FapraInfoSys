@@ -37,19 +37,19 @@ export class TemporaryService {
     }
     
     btnTmpCreateMany(){
-        var i = 0;
+        let i = 0;
         for(i = 0; i<1000; i++)
         {
-            var newUser = new User('User_'+i, "User"+i+"@example.com",'User_'+i,'User_'+i);
+            let newUser = new User('User_'+i, "User"+i+"@example.com",'User_'+i,'User_'+i);
             this.pushUser(newUser);
                 
         }
     }
     btnTmpRemoveMany(){
-        var i = 0;
+        let i = 0;
         for(i = 0; i<1000; i++)
         {
-            var newUser = new User('User_'+i, "User"+i+"@example.com",'User_'+i,'User_'+i);
+            let newUser = new User('User_'+i, "User"+i+"@example.com",'User_'+i,'User_'+i);
             this.removeUser(newUser);
                 
         }

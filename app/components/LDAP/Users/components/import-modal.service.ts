@@ -32,6 +32,7 @@ export class ImportModalService {
     public init(value: string){
         switch(value){
             default:
+                this.uploader = new FileUploader({});
                 while(this.user.bulk.length>0){
                     this.user.bulk.pop();
                 }
@@ -44,14 +45,22 @@ export class ImportModalService {
         console.log("submitting....");
         this.uploader.queue.forEach(it =>
             {
-                console.log(it)
-                
+                console.log(it);
                 let file : File = it._file;
-                var myReader:FileReader = new FileReader();
-                console.log(file.name)
+                let myReader:FileReader = new FileReader();
+                console.log(file.name);
                 myReader.onloadend = () => {
                     console.log(myReader.result);
-                    this.ldapHttpService.postUsers(myReader.result)
+                    let res = JSON.parse(myReader.result);
+                    res.forEach(jobj => {
+                        let nuser = new User(jobj.loginName, jobj.email, jobj.displayName, jobj.distinguishedName, jobj.password);
+                        this.ldapHttpService.putUser(nuser)
+                        .subscribe(
+                            complete=>{},
+                            //TODO bulk put + self.init()
+                            error => console.log(error)
+                        );
+                    });                    
                 }
                 myReader.readAsText(file);
                 
@@ -70,17 +79,17 @@ export class ImportModalService {
     }
     
 
-public fileOverBase(e:any):void {
-    this.hasBaseDropZoneOver = e;
-    console.log("fobase")
-  }
+    public fileOverBase(e:any):void {
+        this.hasBaseDropZoneOver = e;
+        console.log("fobase")
+    }
 
-  public fileOverAnother(e:any):void {
-    this.hasAnotherDropZoneOver = e;
-  }
+    public fileOverAnother(e:any):void {
+        this.hasAnotherDropZoneOver = e;
+    }
   
-  public uploadAll() {
-      console.log("Up All")
-  }
+    public uploadAll() {
+        console.log("Up All")
+    }
   
 }

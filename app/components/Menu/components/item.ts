@@ -1,4 +1,4 @@
-import { Component, Input, ContentChildren, QueryList } from '@angular/core';
+import { Component, Input, ContentChildren, QueryList, ViewChildren } from '@angular/core';
 import { Menu }             from './menu'; 
 
 @Component({
@@ -12,6 +12,7 @@ import { Menu }             from './menu';
 export class Item {
     @Input() title;
     @ContentChildren(Item) private qitems: QueryList<Item>;
+    @ContentChildren('initobj') private itms: QueryList<any>;
     public active : boolean = false; 
     public class: string = "";
     public items: Item[] = [];
@@ -39,5 +40,9 @@ export class Item {
         })
         item.active = true;
         item.class = "active";
+        item.itms.forEach(obj => {
+            obj.init();
+        });
+        
     }
 }
