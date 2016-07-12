@@ -73,15 +73,31 @@
 \subsection{Overview}
 \begin{frame}
 	\frametitle{Architecture}
-	\begin{tikzpicture}
-		\tikzset{every rectangle node/.style={draw, rectangle}}
-		\node (frontend) at (0, 3) {Web-Application};
-		\node (middleend) at (0, 0) {Java middle layer};
-		\node (ldap) at (0, -3) {LDAP Server};
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{tikzpicture}
+				\tikzset{every rectangle node/.style={draw, rectangle}}
+				\node (frontend) at (0, 3) {Web-Application};
+				\node (middleend) at (0, 0) {Java middle layer};
+				\node (ldap) at (0, -3) {LDAP Server};
 
-		\draw[<->] (frontend) to[] (middleend);
-		\draw[<->] (middleend) to[] (ldap);
-	\end{tikzpicture}
+				\draw[<->] (frontend) to[] (middleend);
+				\draw[<->] (middleend) to[] (ldap);
+			\end{tikzpicture}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{itemize}
+				\item Web-Application as user interface
+				\item Java middle layer as intermediate program logic
+				\begin{itemize}
+					\item provides REST interface
+					\item accepts action requests
+					\item provides response
+				\end{itemize}
+			\item LDAP-Server as persistent storage
+			\end{itemize}
+		\end{column}
+	\end{columns}
 \end{frame}
 
 \section{Questions?}
