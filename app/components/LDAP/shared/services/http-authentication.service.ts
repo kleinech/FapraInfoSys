@@ -11,7 +11,7 @@ export class HttpAuthenticationService {
     public get(url: string, options:any = {} ){
         options.headers = options.headers ? options.headers : new Headers();
         this.getAuthenticationHeader(options.headers);
-        this.getContentTypeHeader(options.headers);
+        this.getAcceptHeader(options.headers);
         return this.http.get(url, options);
     }
     
@@ -31,8 +31,8 @@ export class HttpAuthenticationService {
         headers.append('Authorization', 'Baerer ' + this.getToken());
     }
     
-    private getContentTypeHeader(headers: Headers){
-        headers.append('Content-Type', 'application/json');
+    private getAcceptHeader(headers: Headers){
+        headers.append('Accept', 'application/json');
     }
     
     private getToken(): string{
@@ -46,6 +46,7 @@ export class HttpAuthenticationService {
             let headers = new Headers({
                 'Content-Type': 'application/x-www-form-urlencoded'
             });
+            this.getAcceptHeader(headers);
             let params = {
                 username: username,
                 password: password
