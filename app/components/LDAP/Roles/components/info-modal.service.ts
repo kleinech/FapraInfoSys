@@ -39,7 +39,7 @@ export class InfoModalService {
             htmlstring = htmlstring + "<p>" + p.text + "</p>";
         })
         if(this.permissions.length < 1){
-            htmlstring = htmlstring + "<p>No permissions guaranteed!</p>"
+            htmlstring = htmlstring + "<p>No permissions granted!</p>"
         }
         return htmlstring;
     }
