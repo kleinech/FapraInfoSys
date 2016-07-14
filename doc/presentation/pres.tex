@@ -52,7 +52,7 @@
   commentstyle=\itshape\color{purple!40!black},
 }
 
-\lstset{escapechar=@,style=customc}
+\lstset{style=customc}
 
 
 
@@ -263,10 +263,72 @@ public NamingEnumeration<SearchResult> search(
 \againframe<5>{archgraph}
 
 \begin{frame}
-	\frametitle{Angular 2}
+	\frametitle{Angular 2 \& Typescript}
+	\begin{itemize}
+		\item Javascript framework for web applications
+		\item True object oriented web development
+		\item Typescript syntax similar to Java 8
+		\item Performance, scalability, cross-platform
+		\item Google engineering director Brad Green (March, 2016):\\
+		\emph{1.3 million developers use AngularJS and over 300 thousand are already using the soon to be released Angular 2}
+	\end{itemize}
 \end{frame}
 
-\section{Implementation}
+\begin{frame}[fragile]
+	\frametitle{Angular 2 Application}
+	\begin{itemize}
+		\item Tree of loosely coupled components
+	\end{itemize}
+	\begin{lstlisting}[frame=single]
+<tabs>
+  <tab title="Welcome">...</tab>
+  <tab title="Security Configuration"> 
+    <menu> 
+      <item title="Users, Groups and Roles">
+        <item title="Users">
+          <users></users>
+        </item>
+        <item title="Groups">
+          <groups></groups>
+        </item>
+...
+	\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{Angular 2 Component}
+	\lstset{%
+		basicstyle=\tiny
+	}
+	\begin{lstlisting}[frame=single]
+import { Group } from './group';
+import { GroupsService } from './groups.service';
+...
+import { LDAPHttpService } from './../../shared/services/ldap-http.service'
+@Component({
+selector: 'groups',
+templateUrl: './../templates/groups.tpl.html',
+directives: [MODAL_DIRECTIVES, TABLE_DIRECTIVES, MENUBAR_DIRECTIVES],
+providers: []
+moduleId: module.id
+})
+export class Groups {
+  public groups: Array<Group> = new Array<Group>();
+  constructor(
+    private ldapHttpService: LDAPHttpService,
+    private groupsService: GroupsService, ...
+  ){}
+  // Showcase
+  @Input('data') data: string = "default value";
+  @Output() selected: EventEmitter<any> = new EventEmitter();
+  ...
+}
+// Inside another template
+<groups [data]="'new value'" (selected)="doSomething()">...</groups>
+	\end{lstlisting}
+\end{frame}
+
+\section{Demonstration}
 
 \section{Questions?}
 
