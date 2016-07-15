@@ -78,7 +78,7 @@ export class UsersCRUDModalService {
                         ]
                     });
                 }
-                break;   
+                break;
             default:
         }
     }

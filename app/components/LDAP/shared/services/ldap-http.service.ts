@@ -26,6 +26,10 @@ export class LDAPHttpService {
     public authenticate(){
         return this.http.authenticate(this.IP + 'authentication', this.user, this.password);
     }
+    public setUser(user : string, password : string){
+        this.user = user;
+        this.password = password;
+    }
     
     getGroups(offset:number = 0, limit:number = 50, filter:string = ""){
         return Observable.create(observer => {
