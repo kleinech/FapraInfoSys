@@ -15,6 +15,7 @@ export class User {
         this.displayName = user.displayName;
         this.loginName = user.loginName;
         this.email = user.email;
+        this.password = user.password;
     }
     
     setDistinguishedName(){

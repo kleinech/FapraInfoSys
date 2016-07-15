@@ -35,6 +35,7 @@ export class UsersCRUDModalService {
                 break;
             case "delete":
                 this.action = "delete";
+                break;
             default:
                 break;
         }
@@ -77,7 +78,7 @@ export class UsersCRUDModalService {
                         ]
                     });
                 }
-                break;
+                break;   
             default:
         }
     }
