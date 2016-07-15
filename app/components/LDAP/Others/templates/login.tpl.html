@@ -1,0 +1,17 @@
+<h3>Login</h3>
+<form (ngSubmit)="submit()" class="container-fluid">   
+    <fieldset class="form-group">
+        <label for="user">User</label>
+        <input [(ngModel)]="ldapHttpService.user" type="text" class="form-control" required>
+    </fieldset>    
+    <fieldset class="form-group">
+        <label for="password">Password</label>
+        <input [(ngModel)]="ldapHttpService.password" type="password" class="form-control" required>
+    </fieldset>
+    
+    <button type="submit" class="btn btn-success">Submit</button>
+</form>
+
+<h4>JWT Token</h4>
+<p>{{token}}</p>
+<p>{{getDecodedToken()}}</p>

@@ -35,7 +35,7 @@ export class HttpAuthenticationService {
         headers.append('Accept', 'application/json');
     }
     
-    private getToken(): string{
+    public getToken(): string{
         // TODO check token
         return this.token;
     }
@@ -53,11 +53,19 @@ export class HttpAuthenticationService {
             };
             
             this.http.post(url, this.urlEncode(params), { headers: headers }).
-            subscribe(token => {
+            subscribe(
+                token => {
                 this.token = token['_body'];
                 observer.next("ready");
-                observer.complete;
-            });
+                observer.complete; 
+                },
+                error => {
+                    this.token = "";
+                    console.log(error);
+                    observer.next("not ready");
+                    observer.complete; 
+                }
+            );
         });   
     }
     

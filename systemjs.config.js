@@ -9,7 +9,6 @@
     'angular2-infinite-scroll': 'node_modules/angular2-infinite-scroll',
     'ng2-uploader': 'node_modules/ng2-uploader',
     'ng2-file-upload': 'node_modules/ng2-file-upload'
-    
   };
 
   // packages tells the System loader how to load when no filename and/or no extension

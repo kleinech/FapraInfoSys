@@ -14,12 +14,15 @@ export class LDAPHttpService {
             'Content-Type': 'application/json',
         }); 
     }
-    constructor(private http: HttpAuthenticationService){
-        this.authenticate().subscribe(()=>{});
-    };
+    constructor(private http: HttpAuthenticationService){}
     
-    private user: string = "sysadmin";
-    private password: string = "passw0rd";
+    public user: string = "sysadmin";
+    public password: string = "";
+
+    public getToken(): string{
+        return this.http.getToken();
+    }
+    
     public authenticate(){
         return this.http.authenticate(this.IP + 'authentication', this.user, this.password);
     }
