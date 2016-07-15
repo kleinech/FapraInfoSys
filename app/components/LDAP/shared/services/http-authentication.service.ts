@@ -42,7 +42,8 @@ export class HttpAuthenticationService {
     
     public authenticate(url: string, username:string, password: string): Observable<any>{
         return Observable.create(observer => {
-
+            console.log("authentication serer authenticates User " + username + " with password " + password)
+            this.token = "";
             let headers = new Headers({
                 'Content-Type': 'application/x-www-form-urlencoded'
             });

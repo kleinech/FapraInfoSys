@@ -35,6 +35,10 @@ export class UsersCRUDModalService {
                 break;
             case "delete":
                 this.action = "delete";
+                break;
+            case "login":
+                this.action = "login";
+                break;
             default:
                 break;
         }
@@ -78,6 +82,13 @@ export class UsersCRUDModalService {
                     });
                 }
                 break;
+            case 'login':
+                let luser : User = new User();
+                luser.copy(this.user.edit);
+                console.log("executing login wtih user " + luser.loginName + ", " +luser.password)
+                this.ldapHttpService.setUser(luser.loginName, luser.password);
+                this.ldapHttpService.authenticate().subscribe(()=>{});
+                break;    
             default:
         }
     }

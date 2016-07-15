@@ -78,7 +78,10 @@ export class Users {
         this.importModalService.init("");
         this.importModal.open();
     }
-    
+    login(){
+        this.crudModalService.init("login");
+        this.crudModal.open();
+    }
     submitImport(){
         this.closeImportModal();
         this.importModalService.submit(this);
